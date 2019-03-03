@@ -16,5 +16,10 @@
   "bugs": {
     "url": "https://github.com/CheneyZhangCH/HUI/issues"
   },
-  "homepage": "https://github.com/CheneyZhangCH/HUI#readme"
+  "homepage": "https://github.com/CheneyZhangCH/HUI#readme",
+  "devDependencies": {
+    "awesome-typescript-loader": "^5.2.1",
+    "webpack": "^4.29.6",
+    "webpack-cli": "^3.2.3"
+  }
 }
