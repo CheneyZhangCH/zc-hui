@@ -1,4 +1,5 @@
 const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 // 只有程序员开发用
 // npm install --save-dev xxx
 // 只有用户用
@@ -19,5 +20,11 @@ module.exports = {
       test: /\.tsx?$/, // 规则
       loader: 'awesome-typescript-loader', // loader
     }]
-  }
+  },
+  plugins: [
+      new HtmlWebpackPlugin({
+        title: 'HUI',
+        template: 'index.html',
+      })
+  ]
 };
