@@ -30,6 +30,7 @@
   },
   "dependencies": {
     "react": "^16.8.4",
-    "react-dom": "^16.8.4"
+    "react-dom": "^16.8.4",
+    "typescript": "^3.3.3333"
   }
 }
