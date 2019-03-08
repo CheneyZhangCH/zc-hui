@@ -5,13 +5,10 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 // 只有用户用
 // npm install --save xxx
 
-// mode: 'production'时会压缩代码成一行，'development'代码不会压缩一行
-
-// 文件打包太大解决办法如下
-// externals: 外部文件单独打包， root 对应 <scrip src='xxx。js'>
+// cross-env 针对不同平台(windows, unix) 兼容运行变量
 
 module.exports = {
-  mode: 'development',
+  // mode: 'development',
   entry: {
     index: './lib/index.tsx',
   },
@@ -28,26 +25,6 @@ module.exports = {
       test: /\.tsx?$/, // 规则
       loader: 'awesome-typescript-loader', // loader
     }]
-  },
-  plugins: [
-    new HtmlWebpackPlugin({
-      title: 'HUI',
-      template: 'index.html',
-    })
-  ],
-  externals: {
-    react: {
-      commonjs: 'react',
-      commonjs2: 'react',
-      amd: 'react',
-      root: 'React',
-    },
-    'react-dom': {
-      commonjs: 'react-dom',
-      commonjs2: 'react-dom',
-      amd: 'react-dom',
-      root: 'ReactDOM',
-    },
   },
 };
 

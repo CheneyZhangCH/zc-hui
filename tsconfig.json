@@ -9,6 +9,8 @@
     "jsx": "react",
     "moduleResolution": "node",
     "rootDir": ".",
+    // 配置lib/index.d.ts打包到dist目录
+    "outDir": "dist",
     "forceConsistentCasingInFileNames": true,
     "noImplicitReturns": true,
     "noImplicitThis": true,
