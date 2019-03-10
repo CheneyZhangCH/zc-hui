@@ -23,5 +23,10 @@
 //    "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "noUnusedLocals": true
-  }
+  },
+  // ts要分析的文件目录
+  "include": [
+    // '**/*' 可以匹配目录下所有文件！！！
+    "lib/**/*",
+  ]
 }

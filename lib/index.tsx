@@ -7,7 +7,10 @@ import Icon from './icon';
 
 ReactDom.render(
   <div>
+    <Icon name='dingtalk'/>
     <Icon name='wechat'/>
+    <Icon name='alipay'/>
+    <Icon name='qq'/>
   </div>,
-  document.body
+  document.querySelector('#root')
 );
