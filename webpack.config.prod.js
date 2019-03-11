@@ -1,10 +1,5 @@
 const baseConfig = require('./webpack.config');
 
-
-
-const path = require('path');
-
-
 // 文件打包太大解决办法如下
 // mode: 'production'
 // externals: 外部文件单独打包， root 对应 <scrip src='xxx。js'>

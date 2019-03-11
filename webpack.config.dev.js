@@ -1,6 +1,5 @@
 const baseConfig = require('./webpack.config');
 
-const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 // 只有程序员开发用
 // npm install --save-dev xxx
