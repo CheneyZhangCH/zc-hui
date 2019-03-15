@@ -9,19 +9,27 @@ import React from 'react';
 // 非静态引入，书写方便
 // import './importAllIcons'
 
-
 import './importAllIcons';
 import './icon.scss';
+import classnames from './helper/classnames';
 
-interface IconProps {
+// step 1
+interface IconProps extends React.SVGAttributes<SVGElement> {
   name: string;
+  // react中 svg的 鼠标事件的处理函数
+  // onClick?: React.MouseEventHandler<SVGElement>;
 }
 
 // 如何声明一个react函数组件接受一个类型
 // 生命Icon为react函数组件，接受参数 类型IconProps
 const Icon: React.FunctionComponent<IconProps> = (props) => {
+  const {className, ...rest} = props;
+
+  // {...props}  大括号是指在react tsx内写js的写法 ...props是指展开
   return (
-    <svg className="hui-icon">
+    // step 2
+    <svg className={classnames('hui-icon', className)}
+         {...rest}>
       <use xlinkHref={`#${props.name}`}/>
     </svg>
   );

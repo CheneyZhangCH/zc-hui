@@ -5,12 +5,16 @@ import ReactDom from 'react-dom';
 
 import Icon from './icon';
 
+const fn: React.MouseEventHandler = (e) => {
+  console.log(e.target);
+  console.log(e.target as HTMLDivElement); // 断言
+};
+
 ReactDom.render(
   <div>
-    <Icon name='dingtalk'/>
-    <Icon name='wechat'/>
-    <Icon name='alipay'/>
-    <Icon name='qq'/>
+    <Icon name='qq' onClick={fn} className={'hahaha'}
+          onMouseEnter={() => {console.log('enter')}}
+          onMouseLeave={() => {console.log('leave')}}/>
   </div>,
   document.querySelector('#root')
 );
