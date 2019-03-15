@@ -7,7 +7,7 @@ import Icon from './icon';
 
 const fn: React.MouseEventHandler = (e) => {
   console.log(e.target);
-  console.log(e.target as HTMLDivElement); // 断言
+  // console.log(e.target as HTMLDivElement); // 断言
 };
 
 ReactDom.render(

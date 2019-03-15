@@ -22,15 +22,13 @@ interface IconProps extends React.SVGAttributes<SVGElement> {
 
 // 如何声明一个react函数组件接受一个类型
 // 生命Icon为react函数组件，接受参数 类型IconProps
-const Icon: React.FunctionComponent<IconProps> = (props) => {
-  const {className, ...rest} = props;
-
+const Icon: React.FunctionComponent<IconProps> = ({className, name, ...rest}) => {
+  // const {className, name, ...rest} = props;
   // {...props}  大括号是指在react tsx内写js的写法 ...props是指展开
   return (
     // step 2
-    <svg className={classnames('hui-icon', className)}
-         {...rest}>
-      <use xlinkHref={`#${props.name}`}/>
+    <svg className={classnames('hui-icon', className)} {...rest}>
+      <use xlinkHref={`#${name}`}/>
     </svg>
   );
 };
