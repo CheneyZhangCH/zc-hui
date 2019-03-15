@@ -1,9 +1,9 @@
 import React from 'react';
 import ReactDom from 'react-dom';
+import Icon from './icon/icon';
 
 // import Button from './button';
 
-import Icon from './icon';
 
 const fn: React.MouseEventHandler = (e) => {
   console.log(e.target);
@@ -12,9 +12,12 @@ const fn: React.MouseEventHandler = (e) => {
 
 ReactDom.render(
   <div>
-    <Icon name='qq' onClick={fn} className={'hahaha'}
-          onMouseEnter={() => {console.log('enter')}}
-          onMouseLeave={() => {console.log('leave')}}/>
+    <Icon
+      name='wechat'
+      onClick={fn}
+      className={'hahaha'}
+      onMouseEnter={() => {console.log('enter')}}
+      onMouseLeave={() => {console.log('leave')}}/>
   </div>,
   document.querySelector('#root')
 );

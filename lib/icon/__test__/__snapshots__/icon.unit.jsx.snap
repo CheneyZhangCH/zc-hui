@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Icon should be svg  1`] = `
+<svg
+  className="hui-icon"
+>
+  <use
+    xlinkHref="#undefined"
+  />
+</svg>
+`;
