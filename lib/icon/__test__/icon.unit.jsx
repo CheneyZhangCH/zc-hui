@@ -6,10 +6,6 @@ import Icon from '../icon';
 
 describe('Icon', () => {
   it('should be svg ', () => {
-    // const tree = renderer
-    //   .create(<Button icon="alipay"><span>Click Me</span></Button>)
-    //   .toJSON()
-    // expect(tree).toMatchSnapshot()
     const json = renderer.create(<Icon/>).toJSON();
     expect(json).toMatchSnapshot();
   });
