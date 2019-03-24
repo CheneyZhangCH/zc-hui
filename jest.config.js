@@ -5,10 +5,10 @@ module.exports = {
   clearMocks: false,
   // 测试覆盖率相关配置 
   collectCoverage: true,
-  collectCoverageFrom: ['{lib,include}/**/*.{js,jsx,ts,tsx}', '!**/node_modules/**'],
+  collectCoverageFrom: ['lib/**/*.{js,jsx,ts,tsx}', '!**/node_modules/**'],
   coverageDirectory: 'coverage',
   coverageReporters: ['text', 'lcov'],
-  reporters: ["default", "jest-junit"],
+  reporters: ["default"],
 
   // globals: {
   //     'ts-jest': {
