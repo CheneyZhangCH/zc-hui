@@ -11,7 +11,7 @@ import React from 'react';
 
 import './importAllIcons';
 import './icon.scss';
-import classnames from './../helper/classnames';
+import classes from '../helper/classes';
 
 // step 1
 interface IconProps extends React.SVGAttributes<SVGElement> {
@@ -27,7 +27,7 @@ const Icon: React.FunctionComponent<IconProps> = ({className, name, ...rest}) =>
   // {...props}  大括号是指在react tsx内写js的写法 ...props是指展开
   return (
     // step 2
-    <svg className={classnames('hui-icon', className)} {...rest}>
+    <svg className={classes('hui-icon', className)} {...rest}>
       <use xlinkHref={`#${name}`}/>
     </svg>
   );

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="jest tests" tests="8" failures="0" time="4.117">
+  <testsuite name="classes" errors="0" failures="0" skipped="0" timestamp="2019-03-24T13:39:17" time="1.655" tests="3">
+    <testcase classname="classes 接受 aaa， 输出 aaa" name="classes 接受 aaa， 输出 aaa" time="0.005">
+    </testcase>
+    <testcase classname="classes 接受 undefined， 输出 空字符串" name="classes 接受 undefined， 输出 空字符串" time="0.001">
+    </testcase>
+    <testcase classname="classes 接受 false， 输出 空字符串" name="classes 接受 false， 输出 空字符串" time="0">
+    </testcase>
+  </testsuite>
+  <testsuite name="Button" errors="0" failures="0" skipped="0" timestamp="2019-03-24T13:39:17" time="1.678" tests="1">
+    <testcase classname="Button should be div " name="Button should be div " time="0.016">
+    </testcase>
+  </testsuite>
+  <testsuite name="Icon" errors="0" failures="0" skipped="0" timestamp="2019-03-24T13:39:17" time="1.77" tests="2">
+    <testcase classname="Icon should be svg " name="Icon should be svg " time="0.016">
+    </testcase>
+    <testcase classname="Icon fn 被调用了" name="Icon fn 被调用了" time="0.036">
+    </testcase>
+  </testsuite>
+  <testsuite name="undefined" errors="0" failures="0" skipped="0" timestamp="2019-03-24T13:39:18" time="0.29" tests="2">
+    <testcase classname=" 1 + 1 = 2" name=" 1 + 1 = 2" time="0.002">
+    </testcase>
+    <testcase classname="hello2 should 1 = 1" name="hello2 should 1 = 1" time="0.001">
+    </testcase>
+  </testsuite>
+</testsuites>

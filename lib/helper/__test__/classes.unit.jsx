@@ -1,16 +1,16 @@
-import classnames from './classnames';
+import classes from './../classes';
 
-describe('classnames', () => {
+describe('classes', () => {
   it('接受 aaa， 输出 aaa', () => {
-    const result = classnames('aaa')
+    const result = classes('aaa')
     expect(result).toEqual('aaa');
   });
   it('接受 undefined， 输出 空字符串', () => {
-    const result = classnames(undefined)
+    const result = classes(undefined)
     expect(result).toEqual('');
   });
   it('接受 false， 输出 空字符串', () => {
-    const result = classnames(false)
+    const result = classes(false)
     expect(result).toEqual('');
   });
 });
