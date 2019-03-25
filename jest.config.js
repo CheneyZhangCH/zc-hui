@@ -3,11 +3,14 @@
 module.exports = {
   verbose: true,
   clearMocks: false,
+
   // 测试覆盖率相关配置 
   collectCoverage: true,
   collectCoverageFrom: ['lib/**/*.{js,jsx,ts,tsx}', '!**/node_modules/**'],
   coverageDirectory: 'coverage',
   coverageReporters: ['text', 'lcov'],
+
+  // 测试结果报告
   reporters: ["default", "jest-junit"],
 
   // globals: {
