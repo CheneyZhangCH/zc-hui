@@ -1,7 +1,8 @@
 {
-  "name": "hui",
-  "version": "1.0.0",
+  "name": "hui12138",
+  "version": "0.0.1",
   "description": "",
+  "files": ["/dist"],
   "main": "index.js",
   "scripts": {
     "start": "cross-env NODE_ENV=development webpack-dev-server --config webpack.config.dev.js",
