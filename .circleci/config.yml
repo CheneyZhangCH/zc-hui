@@ -49,6 +49,7 @@ jobs:
     steps:
       - attach_workspace:
           at: .
+      - run: npm config set //register.npmjs.org/:_authToken $NPM_TOKEN
       - run: npm publish
 
 # 工作流程
