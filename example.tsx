@@ -15,7 +15,7 @@ ReactDom.render(
       </header>
       <div>
         <aside>
-          <h2>入门</h2>
+          <h2>组件</h2>
           <ul>
             <li>
               <Link to="/icon"> Icon </ Link>
