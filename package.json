@@ -10,7 +10,7 @@
     "start": "cross-env NODE_ENV=development webpack-dev-server --config webpack.config.dev.js",
     "build": "cross-env NODE_ENV=production webpack --config webpack.config.prod.js",
     "test": "cross-env NODE_ENV=test jest --config=jest.config.js --runInBand",
-    "ci": "cross-env NODE_ENV=test JEST_JUNIT_OUTPUT=./test-results/jest/results.xml jest --config=jest.config.ci.js"
+    "ci": "cross-env NODE_ENV=test JEST_JUNIT_OUTPUT=./test-results/jest/results.xml jest --config=jest.config.ci.js  --coverage && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js",
   },
   "repository": {
     "type": "git",
@@ -29,11 +29,12 @@
     "@types/jest": "^24.0.11",
     "@types/react": "^16.8.7",
     "@types/react-dom": "^16.8.2",
-    "@types/react-test-renderer": "^16.8.1",
     "@types/react-router-dom": "^4.3.1",
+    "@types/react-test-renderer": "^16.8.1",
     "awesome-typescript-loader": "^5.2.1",
     "babel-jest": "^24.3.1",
     "babel-preset-react-app": "^7.0.2",
+    "coveralls": "^3.0.3",
     "cross-env": "^5.2.0",
     "css-loader": "^2.1.1",
     "enzyme": "^3.9.0",
