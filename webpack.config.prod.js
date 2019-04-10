@@ -1,11 +1,8 @@
 const baseConfig = require('./webpack.config');
 
-// 文件打包太大解决办法如下
-// mode: 'production'
-// externals: 外部文件单独打包， root 对应 <scrip src='xxx。js'>
-
 module.exports = Object.assign({}, baseConfig, {
   mode: 'production',
+  // externals: 外部文件单独打包， root 对应 <scrip src='xxx。js'>
   externals: {
     react: {
       commonjs: 'react',
