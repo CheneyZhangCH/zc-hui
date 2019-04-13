@@ -19,8 +19,10 @@ const RootWrap = styled.div`
 const Header = styled.div`
   height: 50px;
   width: 100%;
+  padding: 0 15px;
   display: flex;
   justify-content: space-between;  
+  border-bottom: 1px solid;
 `;
 
 const Main = styled.div`
@@ -32,13 +34,16 @@ const Main = styled.div`
 const Sider = styled.div`
   width: 180px;
   height: 100%;
+  padding: 15px;
   display: flex;
   flex-direction: column;
+  border-right: 1px solid;
 `;
 
 const Content = styled.div`
   flex: 1;
   height: 100%;
+  padding: 20px;
 `;
 
 ReactDom.render(
