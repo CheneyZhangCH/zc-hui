@@ -4,3 +4,15 @@ function classes (...names: (string | undefined)[]) {
   return names.filter(Boolean).join(' ')
 }
 export default classes;
+
+export function createScopedClasses(componentName: string){
+  return function createClasses(postfix?:string) {
+    return ['hui', componentName, postfix].filter(Boolean).join('-')
+  }
+}
+
+const sc = createScopedClasses('dialog');
+
+console.log(sc('header'))
+console.log(sc('main'))
+console.log(sc('footer'))

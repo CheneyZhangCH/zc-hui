@@ -1,0 +1,10 @@
+[class^=hui-] {
+  box-sizing: border-box;
+  font-size: 12px;
+  &::after{
+    box-sizing: border-box;
+  }
+  &::before{
+    box-sizing: border-box;
+  }
+}

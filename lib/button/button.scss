@@ -1,4 +1,26 @@
-.hui-button {
-  width: 10em;
-  height: 4em;
+.hui-btn {
+  width: 6em;
+  height: 3em;
+  border-radius: 4px;
+  &-primary {
+    background-color: #459df5;
+    border: 1px solid #459df5;
+  }
+  &-default {
+    border: 1px solid #459df5;
+    background-color: transparent;
+  }
+  &-text {
+    background-color: transparent;
+  }
+  &-small {
+    width: 4em;
+    height: 2em;
+    border-radius: 2px
+  }
+  &-large {
+    width: 8em;
+    height: 4em;
+    border-radius: 4px
+  }
 }

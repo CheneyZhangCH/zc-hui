@@ -1,47 +1,73 @@
 import React from 'react';
 
-import classes from '../helper/classes';
+import classes, { createScopedClasses } from '../helper/classes';
 import './button.scss';
 
-// step 1
-interface ButtonProps {
-  type?: string;
-  icon?: string;
-  shape?: string;
-  size?: string;
-  loading?: boolean | { delay?: number };
-  className?: string;
-  ghost?: boolean;
-  block?: boolean;
-  waveColor?: string;
-  children?: React.ReactNode;
+const sc = createScopedClasses('btn');
 
-  // react中 svg的 鼠标事件的处理函数
-  // onClick?: React.MouseEventHandler<SVGElement>;
+
+type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
+
+interface IBaseButtonProps {
+  type?: 'default' | 'primary' | 'text';
+  shape?: 'square' | 'circle';
+  size?: 'normal' | 'small' | 'large';
+  className?: string;
+  disabled?: boolean;
+  icon?: string;
+  iconPosition?: 'left' | 'right';
+  iconFill?: string;
+  children?: React.ReactNode;
+  onClick?: React.MouseEventHandler<HTMLButtonElement>;
 }
 
-const handleClick = (e: React.MouseEvent) => {
-  console.log(e);
-  console.log(e.screenX);
-  console.log(e.screenY);
-  console.log(e.pageX);
-  console.log(e.pageY);
-  console.log(e.target);
-};
+type AnchorButtonProps = {
+  href?: string;
+  target?: string;
+  onClick?: React.MouseEventHandler<any>;
+} & IBaseButtonProps & Omit<React.AnchorHTMLAttributes<any>, 'type'>;
 
+type NativeButtonProps = {
+  onClick?: React.MouseEventHandler<any>;
+} & IBaseButtonProps & Omit<React.ButtonHTMLAttributes<any>, 'type'>;
 
-// 如何声明一个react函数组件接受一个类型
-// 生命Icon为react函数组件，接受参数 类型IconProps
-const Button: React.FunctionComponent<ButtonProps> = ({ className, type, ...rest }) => {
-  // const {className, name, ...rest} = props;
-  // {...props}  大括号是指在react tsx内写js的写法 ...props是指展开
+type IButtonProps = Partial<AnchorButtonProps & NativeButtonProps>;
+
+const Button: React.FunctionComponent<IButtonProps> = ({ type, shape, size, className, icon, onClick, children, ...rest }) => {
+  const classNames: (string | undefined)[] = [];
+  const classParams = {
+    [`${type}`]: type,
+    [`${shape}`]: shape,
+    [`${size}`]: size,
+  };
+
+  Object.keys(classParams).map((item) => {
+      if (item !== undefined) classNames.push(sc(item));
+    }
+  );
+
+  const handleClick: React.MouseEventHandler<HTMLButtonElement | HTMLAnchorElement> = (e) => {
+    if (rest.disabled) {
+      return e.preventDefault();
+    }
+
+    if(onClick) {
+      (onClick as React.MouseEventHandler<HTMLButtonElement | HTMLAnchorElement>)(e)
+    }
+  };
+
+  if (rest.href !== undefined) {
+    return (
+      <a className={classes('hui-btn', className, ...classNames)} href={rest.href} target={rest.target} {...rest}>
+        {children}
+      </a>
+    );
+  }
+
   return (
-    // step 2
-
-    <button onClick={(e) => handleClick(e)} className={classes('hui-button', className)} {...rest}>
-      <span>button</span>
+    <button onClick={handleClick} className={classes('hui-btn', className, ...classNames)} {...rest}>
+      {children}
     </button>
   );
 };
-
 export default Button;
