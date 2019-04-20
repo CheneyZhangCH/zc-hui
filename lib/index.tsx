@@ -1,7 +1,6 @@
 import Icon from './icon/icon';
+import Button from './button/button';
 
 import './index.scss';
 
-// import Button from './button';
-
-export { Icon };
+export { Icon, Button };

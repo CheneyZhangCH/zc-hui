@@ -1,3 +1,25 @@
+@import "../theme";
 .hui-dialog {
-
+  position: fixed; left: 50%; top: 100px; transform: translate(-50%, 0); background: white; width: 20em; border-radius: 4px;
+  &-mask { position: fixed; top: 0; left: 0; height: 100%; width: 100%; background-color: fade_out(black, 0.5); }
+  &-header { font-size: 22px; padding: 8px 16px; border-bottom: 1px solid grey; }
+  &-main { min-height: 10em; }
+  &-footer {
+    padding: 8px 16px;
+    border-top: 1px solid grey;
+    display: flex;
+    justify-content: flex-end;
+    & > button {
+      margin: 0 4px;
+      &:first-child {
+        margin: 0 4px 0 0;
+      }
+      &:last-child {
+        margin: 0 0 0 4px;
+      }
+    }
+  }
+  &-close { position: absolute; right: 0; top: 0; transform: translate(50%, -50%);
+    height: 1.5em; width: 1.5em; border-radius: 50%; background-color: $primary-color; color: white;
+    display: flex; justify-content: center; align-items: center; }
 }

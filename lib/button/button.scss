@@ -1,13 +1,14 @@
+@import "../theme";
 .hui-btn {
   width: 6em;
   height: 3em;
   border-radius: 4px;
   &-primary {
-    background-color: #459df5;
-    border: 1px solid #459df5;
+    background-color: $primary-color;
+    border: 1px solid $primary-color;
   }
   &-default {
-    border: 1px solid #459df5;
+    border: 1px solid $primary-color;
     background-color: transparent;
   }
   &-text {

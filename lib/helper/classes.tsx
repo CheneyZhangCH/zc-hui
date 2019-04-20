@@ -10,9 +10,3 @@ export function createScopedClasses(componentName: string){
     return ['hui', componentName, postfix].filter(Boolean).join('-')
   }
 }
-
-const sc = createScopedClasses('dialog');
-
-console.log(sc('header'))
-console.log(sc('main'))
-console.log(sc('footer'))
