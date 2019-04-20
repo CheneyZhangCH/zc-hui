@@ -26,7 +26,12 @@ const DialogExample: React.FunctionComponent = () => {
         <div>dialog</div>
       </Dialog>
       <Button style={{ marginRight: 10 }} onClick={() => alert('alert')}>alert</Button>
-      <Button style={{ marginRight: 10 }} onClick={() => confirm('alert')}>confirm</Button>
+      <Button style={{ marginRight: 10 }} onClick={() =>
+        confirm('confirm', () => {
+          console.log('你点击了yes');
+        }, () => {
+          console.log('你点击了no');
+        })}>confirm</Button>
       <Button style={{ marginRight: 10 }} onClick={openModal}>modal</Button>
     </div>
   );

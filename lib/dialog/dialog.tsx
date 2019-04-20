@@ -1,4 +1,4 @@
-import React, { Fragment, ReactElement, ReactFragment, ReactNode } from 'react';
+import React, { Fragment, ReactElement, ReactNode } from 'react';
 import ReactDOM from 'react-dom';
 
 import { createScopedClasses } from '../helper/classes';
@@ -56,92 +56,56 @@ const Dialog: React.FunctionComponent<IDialogProps> = (props) => {
   );
 };
 
-const alert = (content: string) => {
-  const handleCancel = () => {
+const modal = (content: ReactNode, buttons?: Array<ReactElement>, onCancel?: () => void) => {
+  const onClose = () => {
+    console.log('onClose');
     ReactDOM.render(React.cloneElement(component, { visible: false }), divWrap);
     ReactDOM.unmountComponentAtNode(divWrap);
     divWrap.remove();
   };
 
-  const divWrap = document.createElement('div');
   const component = (
-    <Dialog visible={true} onClose={handleCancel}
-            buttons={[<Button onClick={handleCancel} type="primary">确认</Button>
-            ]}
+    <Dialog visible={true}
+            onClose={() => {
+              onCancel && onCancel();
+              onClose();
+            }}
+            buttons={buttons}
     >
       {content}
     </Dialog>
   );
-
+  const divWrap = document.createElement('div');
   document.body.append(divWrap);
   ReactDOM.render(component, divWrap);
+  return onClose;
+};
+
+const alert = (content: string) => {
+  const buttons = [<Button type="primary" onClick={() => close()}>确认</Button>];
+  const close = modal(content, buttons);
 };
 
 const confirm = (content: string, onConfirm?: () => void, onCancel?: () => void) => {
   const handleConfirm = () => {
-    ReactDOM.render(React.cloneElement(component, { visible: false }), divWrap);
-    ReactDOM.unmountComponentAtNode(divWrap);
-    divWrap.remove();
+    console.log('handleConfirm');
+    handleClose();
     onConfirm && onConfirm();
   };
 
   const handleCancel = () => {
-    ReactDOM.render(React.cloneElement(component, { visible: false }), divWrap);
-    ReactDOM.unmountComponentAtNode(divWrap);
-    divWrap.remove();
+    console.log('handleCancel');
+    handleClose();
     onCancel && onCancel();
   };
 
-  const divWrap = document.createElement('div');
-  const component = (
-    <Dialog visible={true}
-            onClose={handleCancel}
-            buttons={[
-              <Button onClick={handleCancel}>取消</Button>,
-              <Button onClick={handleConfirm} type="primary">确认</Button>
-            ]}
-    >
-      {content}
-    </Dialog>);
+  const buttons = [
+    <Button onClick={handleCancel}>取消</Button>,
+    <Button onClick={handleConfirm} type="primary">确认</Button>
+  ];
 
-  document.body.append(divWrap);
-  ReactDOM.render(component, divWrap);
-
+  const handleClose = modal(content, buttons, onCancel);
 };
-
-const modal = (content: ReactNode | ReactFragment) => {
-  // const handleConfirm = () => {
-  //   ReactDOM.render(React.cloneElement(component, { visible: false }), divWrap);
-  //   ReactDOM.unmountComponentAtNode(divWrap);
-  //   divWrap.remove();
-  //   onConfirm && onConfirm();
-  // };
-
-  const handleCancel = () => {
-    ReactDOM.render(React.cloneElement(component, { visible: false }), divWrap);
-    ReactDOM.unmountComponentAtNode(divWrap);
-    divWrap.remove();
-    // onCancel && onCancel();
-  };
-
-  const divWrap = document.createElement('div');
-  const component = (
-    <Dialog visible={true}
-            onClose={handleCancel}
-      // buttons={[
-      //   <Button onClick={handleCancel}>取消</Button>,
-      //   <Button onClick={handleConfirm} type="primary">确认</Button>
-      // ]}
-    >
-      {content}
-    </Dialog>);
-
-  document.body.append(divWrap);
-  ReactDOM.render(component, divWrap);
-  // 函数返回操作内部变量的api，以便外部进行操作
-  return handleCancel;
-};
-
 
 export { alert, confirm, modal };
 
