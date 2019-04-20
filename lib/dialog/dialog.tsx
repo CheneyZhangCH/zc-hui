@@ -13,7 +13,7 @@ const sc = createScopedClasses('dialog');
 
 interface IDialogProps {
   visible: boolean;
-  buttons: Array<ReactElement>;
+  buttons?: Array<ReactElement>;
   onClose: React.MouseEventHandler;
   noCloseOnClickMask?: boolean;
 }
@@ -40,7 +40,7 @@ const Dialog: React.FunctionComponent<IDialogProps> = (props) => {
           {props.children}
         </main>
         <footer className={sc('footer')}>
-          {props.buttons.map((button, index) => {
+          {props.buttons && props.buttons.length > 0 && props.buttons.map((button, index) => {
             return React.cloneElement(button, { key: index });
           })}
         </footer>
@@ -52,5 +52,23 @@ const Dialog: React.FunctionComponent<IDialogProps> = (props) => {
     ReactDOM.createPortal(result, document.body)
   );
 };
+
+const alert = (content: string) => {
+  const divWrap = document.createElement('div');
+
+  const component = <Dialog visible={true} onClose={() => {
+    ReactDOM.render(React.cloneElement(component, { visible: false }), divWrap);
+    ReactDOM.unmountComponentAtNode(divWrap);
+    divWrap.remove();
+  }}>
+    {content}
+  </Dialog>;
+
+  document.body.append(divWrap);
+  ReactDOM.render(component, divWrap);
+
+};
+
+export { alert };
 
 export default Dialog;
