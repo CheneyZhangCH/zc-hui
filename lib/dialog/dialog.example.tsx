@@ -1,9 +1,19 @@
-import React, { useState } from 'react';
+import React, { Fragment, useState } from 'react';
 import { Button } from '../index';
-import Dialog, { alert } from './dialog';
+import Dialog, { alert, confirm, modal } from './dialog';
 
 const DialogExample: React.FunctionComponent = () => {
   const [x, setX] = useState(false);
+
+  const openModal = () => {
+    const close = modal(
+      <Fragment>
+        <div>this is a div</div>
+        <Button type="primary" onClick={() => close()}>close</Button>
+      </Fragment>
+    );
+  };
+
 
   return (
     <div>
@@ -15,7 +25,9 @@ const DialogExample: React.FunctionComponent = () => {
       >
         <div>dialog</div>
       </Dialog>
-      <Button onClick={() => alert('alert')}>alert</Button>
+      <Button style={{ marginRight: 10 }} onClick={() => alert('alert')}>alert</Button>
+      <Button style={{ marginRight: 10 }} onClick={() => confirm('alert')}>confirm</Button>
+      <Button style={{ marginRight: 10 }} onClick={openModal}>modal</Button>
     </div>
   );
 };
