@@ -1,9 +1,11 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, ReactElement } from 'react';
+import ReactDOM from 'react-dom';
+
 import { createScopedClasses } from '../helper/classes';
 
 import './dialog.scss';
 
-import { Icon, Button } from '../index';
+import { Icon } from '../index';
 
 const sc = createScopedClasses('dialog');
 
@@ -11,28 +13,43 @@ const sc = createScopedClasses('dialog');
 
 interface IDialogProps {
   visible: boolean;
+  buttons: Array<ReactElement>;
+  onClose: React.MouseEventHandler;
+  noCloseOnClickMask?: boolean;
 }
 
 const Dialog: React.FunctionComponent<IDialogProps> = (props) => {
+  const handleClose: React.MouseEventHandler = (e) => {
+    props.onClose(e);
+  };
+
+  const handleClickMask: React.MouseEventHandler = (e) => {
+    if (props.noCloseOnClickMask === true) e.preventDefault();
+    else props.onClose(e);
+  };
+
+  const result = props.visible ?
+    <Fragment>
+      <div className={sc('mask')} onClick={handleClickMask}/>
+      <div className={sc('')}>
+        <Icon name="close" className={sc('close')} onClick={handleClose}/>
+        <header className={sc('header')}>
+          提示
+        </header>
+        <main className={sc('main')}>
+          {props.children}
+        </main>
+        <footer className={sc('footer')}>
+          {props.buttons.map((button, index) => {
+            return React.cloneElement(button, { key: index });
+          })}
+        </footer>
+      </div>
+    </Fragment> :
+    null;
+
   return (
-    props.visible ?
-      <Fragment>
-        <div className={sc('mask')}></div>
-        <div className={sc('')}>
-          <Icon name="close" className={sc('close')}/>
-          <header className={sc('header')}>
-            提示
-          </header>
-          <main className={sc('main')}>
-            {props.children}
-          </main>
-          <footer className={sc('footer')}>
-            <Button>cancel</Button>
-            <Button>ok</Button>
-          </footer>
-        </div>
-      </Fragment> :
-      null
+    ReactDOM.createPortal(result, document.body)
   );
 };
 

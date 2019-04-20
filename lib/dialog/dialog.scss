@@ -1,7 +1,7 @@
 @import "../theme";
 .hui-dialog {
-  position: fixed; left: 50%; top: 100px; transform: translate(-50%, 0); background: white; width: 20em; border-radius: 4px;
-  &-mask { position: fixed; top: 0; left: 0; height: 100%; width: 100%; background-color: fade_out(black, 0.5); }
+  position: fixed; left: 50%; top: 100px; z-index: 2; transform: translate(-50%, 0); background: white; width: 20em; border-radius: 4px;
+  &-mask { position: fixed; top: 0; left: 0; z-index: 1; height: 100%; width: 100%; background-color: fade_out(black, 0.5); }
   &-header { font-size: 22px; padding: 8px 16px; border-bottom: 1px solid grey; }
   &-main { min-height: 10em; }
   &-footer {
