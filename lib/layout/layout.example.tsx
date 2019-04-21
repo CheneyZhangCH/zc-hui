@@ -10,7 +10,7 @@ export default function layout() {
   return (
     <div>
       <div>第1个例子</div>
-      <Layout style={{ height: 300 }} className='test-class test  test1 test2'>
+      <Layout style={{ height: 300 }} >
         <Header className='test-class test  test1 test2'/>
         <Content className='test-class test  test1 test2'/>
         <Footer className='test-class test  test1 test2'/>
