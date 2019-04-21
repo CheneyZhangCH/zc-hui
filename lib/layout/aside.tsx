@@ -12,7 +12,7 @@ const Aside: React.FunctionComponent<IAsideProps> = (props) => {
 
   return (
     <div className={sc('aside', className)} {...rest}>
-      Aside
+      {props.children}
     </div>
   );
 };
