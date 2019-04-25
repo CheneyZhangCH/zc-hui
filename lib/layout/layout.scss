@@ -1,5 +1,7 @@
 @import '../theme';
 .hui-layout {
+  height: 100%;
+  width: 100%;
   border: 1px solid grey;
   display: flex;
   flex-direction: column;
@@ -17,7 +19,7 @@
     background-color: $primary-color;
   }
   &-aside {
-    width: 3em;
+    width: 10em;
     background-color: darken($primary-color, 10%);
   }
   & & {
@@ -30,6 +32,10 @@
     .hui-layout {
       display: flex;
       flex-direction: column;
+      &-content {
+        height: 100%;
+        overflow: auto;
+      }
     }
   }
 }
