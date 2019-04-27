@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react';
+import React, { ReactElement, ReactNodeArray } from 'react';
 import { createScopedClasses } from "../helper/classes";
 
 import './layout.scss';
@@ -7,6 +7,7 @@ import Aside from "./aside";
 const sc = createScopedClasses('layout');
 
 interface ILayoutProps extends React.HTMLAttributes<HTMLElement> {
+  children: ReactNodeArray | ReactElement
 }
 
 const Layout: React.FunctionComponent<ILayoutProps> = (props) => {

@@ -2,25 +2,39 @@
 .hui-layout {
   height: 100%;
   width: 100%;
-  border: 1px solid grey;
   display: flex;
   flex-direction: column;
-  color: white;
+  color: $text-color;
+  position: relative;
   &-header {
-    height: 3em;
-    background-color: $primary-color;
+    padding: 20px;
+    border-bottom: 1px solid $border-color-base;
+    box-shadow: $box-shadow-base;
+    position: relative;
+    z-index: 1;
   }
   &-content {
+    padding: 20px;
     flex-grow: 1;
-    background-color: lighten($primary-color, 10%);
+    background-color: $bg-color-base;
+    position: relative;
+    z-index: 0;
   }
   &-footer {
-    height: 3em;
-    background-color: $primary-color;
+    position: relative;
+    z-index: 1;
+    padding: 20px;
+    border-top: 1px solid $border-color-base;
+    box-shadow: $box-shadow-top;
   }
   &-aside {
-    width: 10em;
-    background-color: darken($primary-color, 10%);
+    position: relative;
+    z-index: 1;
+    width: 180px;
+    padding: 20px;
+    border-left: 1px solid $border-color-base;
+    border-right: 1px solid $border-color-base;
+    box-shadow: $box-shadow-right;
   }
   & & {
     flex-grow: 1;

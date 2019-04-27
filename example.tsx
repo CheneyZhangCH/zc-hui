@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDom from 'react-dom';
-import { HashRouter as Router, Route, Link } from 'react-router-dom';
+import { HashRouter as Router, Route, NavLink } from 'react-router-dom';
 
 import IconExample from './lib/icon/icon.example';
 import ButtonExample from './lib/button/button.example';
@@ -14,7 +14,7 @@ import { Layout, Header, Content, Aside, Footer } from './lib/layout/layout';
 ReactDom.render(
   <Router>
     <ThemeProvider theme={myTheme}>
-      <Layout>
+      <Layout className="page">
         <Header>
           <div className="logo">
             HUI
@@ -22,19 +22,18 @@ ReactDom.render(
         </Header>
         <Layout>
           <Aside>
-            <h2>组件</h2>
             <ul>
               <li>
-                <Link to="/icon"> Icon </ Link>
+                <NavLink to="/icon">Icon 图标</NavLink>
               </li>
               <li>
-                <Link to="/button"> Button </ Link>
+                <NavLink to="/button">Button 按钮</NavLink>
               </li>
               <li>
-                <Link to="/dialog"> Dialog </ Link>
+                <NavLink to="/dialog">Modal 对话框</NavLink>
               </li>
               <li>
-                <Link to="/layout"> Layout </ Link>
+                <NavLink to="/layout">Layout 布局 </NavLink>
               </li>
             </ul>
           </Aside>
