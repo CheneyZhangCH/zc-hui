@@ -42,9 +42,8 @@
     flex-direction: row;
   }
   &-has-aside {
-    flex-direction: row;
+    flex-direction: row !important;
     .hui-layout {
-      display: flex;
       flex-direction: column;
       &-content {
         height: 100%;
