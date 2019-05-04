@@ -1,8 +1,8 @@
 import React, { ReactElement, ReactNodeArray } from 'react';
-import { createScopedClasses } from "../helper/classes";
+import { createScopedClasses } from '../helper/classes';
 
 import './layout.scss';
-import Aside from "./aside";
+import Aside from './aside';
 
 const sc = createScopedClasses('layout');
 
