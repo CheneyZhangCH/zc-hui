@@ -13,4 +13,7 @@ module.exports = Object.assign({}, baseConfig, {
       template: 'example.html',
     })
   ],
+  devServer: {
+    open:true,
+  },
 });

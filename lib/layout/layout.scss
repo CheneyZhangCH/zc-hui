@@ -38,13 +38,11 @@
   }
   & & {
     flex-grow: 1;
-    display: flex;
-    flex-direction: row;
+    flex-direction: column;
   }
-  &-has-aside {
-    flex-direction: row !important;
-    .hui-layout {
-      flex-direction: column;
+  & &-has-aside {
+    flex-direction: row;
+    & .hui-layout {
       &-content {
         height: 100%;
         overflow: auto;
