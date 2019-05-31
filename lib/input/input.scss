@@ -1,0 +1,15 @@
+@import "../theme";
+
+.hui-input {
+  border: 1px solid #eee;
+  line-height: 22px;
+  padding: 4px 8px;
+  border-radius: 4px;
+  box-shadow: 0 0 0 1px fade_out($primary-color, 1);
+  transition: box-shadow .5s;
+  &:focus {
+    outline: none;
+    border-color: $primary-color;
+    box-shadow: 0 0 0 1px fade_out($primary-color, 0.5);
+  }
+}

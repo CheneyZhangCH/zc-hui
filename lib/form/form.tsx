@@ -1,5 +1,7 @@
 import React, { ReactFragment } from 'react';
 
+import { Input } from '../index';
+
 export interface IFormValue {
   [Key: string]: string
 }
@@ -38,7 +40,10 @@ const Form: React.FunctionComponent<IFormProps> = (props) => {
               {f.label}
             </td>
             <td>
-              <input type={f.input.type} value={formData[f.name]} onChange={(e) => onInputChange(f.name, e.target.value)}/>
+              <Input
+                type={f.input.type}
+                value={formData[f.name]}
+                onChange={(e) => onInputChange(f.name, e.target.value)}/>
             </td>
             <td>
               <span>{props.errors[f.name]}</span>

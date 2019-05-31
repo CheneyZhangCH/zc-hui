@@ -1,4 +1,5 @@
 import React, { Fragment, useState } from 'react';
+import {Button} from '../index';
 
 import Form, { IFormValue } from './form';
 import Validator from './validator';
@@ -33,7 +34,10 @@ const FormExample: React.FunctionComponent = () => {
   };
 
   return (
-    <Form value={formData} fields={fields} onSubmit={onSubmit} errors={errors}
+    <Form value={formData}
+          fields={fields}
+          onSubmit={onSubmit}
+          errors={errors}
           onChange={(newValue) => setFormData(newValue)}
           buttons={
             <Fragment>
