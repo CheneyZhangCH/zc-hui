@@ -1,4 +1,4 @@
-import React, { Fragment, ReactElement, ReactNode } from 'react';
+import React, { Fragment, ReactElement, ReactNode, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 
 import { createScopedClasses } from '../helper/classes';
@@ -15,7 +15,19 @@ interface IDialogProps {
   visible: boolean;
   buttons?: Array<ReactElement>;
   onClose: React.MouseEventHandler;
+  // 点击遮罩层是否关闭
   noCloseOnClickMask?: boolean;
+  // 展示的header title
+  title?: string;
+  // 是否展示右上角X按钮
+  showClose?: boolean;
+  // 是否展示取消按钮
+  showCancel?: boolean;
+  // 取消按钮展示文案，默认为'取消'
+  cancelBtn?: string;
+  // 确认按钮展示文案，默认为'确认'
+  confirmBtn?: string;
+
 }
 
 const Dialog: React.FunctionComponent<IDialogProps> = (props) => {
@@ -28,12 +40,49 @@ const Dialog: React.FunctionComponent<IDialogProps> = (props) => {
     else props.onClose(e);
   };
 
+  let dialogRef: HTMLElement;
+  let headerRef: HTMLElement;
+  let position = { startX: 0, startY: 0, dx: 0, dy: 0, tx: 0, ty: 0 };
+
+  const dialogMove = (e) => {
+    const tx = e.pageX - position.startX;
+    const ty = e.pageY - position.startY;
+    dialogRef.style.transform = `translate(${tx}px,${ty}px)`;
+    position.dx = tx;
+    position.dy = ty;
+  };
+
+  const moveStart = (e) => {
+    console.log('e', e)
+    if (e.button !== 0) return;
+    document.addEventListener('mousemove', dialogMove);
+    position.startX = e.pageX - position.dx;
+    position.startY = e.pageY - position.dy;
+  };
+
+  const moveEnd = (e) => {
+    document.removeEventListener('mousemove', dialogMove);
+  };
+
+  useEffect(() => {
+    position = { startX: 0, startY: 0, dx: dialogRef ? -dialogRef.clientWidth / 2 : 0, dy: 0, tx: 0, ty: 0 };
+    if (headerRef) headerRef.addEventListener('mousedown', moveStart);
+    document.addEventListener('mouseup', moveEnd);
+
+    return () => {
+      if (headerRef)
+        headerRef.removeEventListener('mousedown', moveStart);
+      document.removeEventListener('mouseup', moveEnd);
+      document.removeEventListener('mousemove', dialogMove);
+    };
+  }, []);
+
   const result = props.visible ?
     <Fragment>
       <div className={sc('mask')} onClick={handleClickMask}/>
-      <div className={sc('')}>
+      <div className={sc('')} ref={ref => dialogRef = ref}>
         <Icon name="close" className={sc('close')} onClick={handleClose}/>
-        <header className={sc('header')}>
+        <header className={sc('header')} ref={ref => headerRef = ref}>
           提示
         </header>
         <main className={sc('main')}>
