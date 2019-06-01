@@ -2,6 +2,12 @@ import React, { ReactFragment } from 'react';
 
 import { Input } from '../index';
 
+import './form.scss';
+
+import { createScopedClasses } from '../helper/classes';
+
+const sc = createScopedClasses('form');
+
 export interface IFormValue {
   [Key: string]: string
 }
@@ -33,28 +39,34 @@ const Form: React.FunctionComponent<IFormProps> = (props) => {
   return (
     <form onSubmit={onSubmit}>
       <table>
-      {
-        props.fields.map((f) =>
-          <tr key={f.name}>
-            <td>
-              {f.label}
-            </td>
-            <td>
-              <Input
-                type={f.input.type}
-                value={formData[f.name]}
-                onChange={(e) => onInputChange(f.name, e.target.value)}/>
-            </td>
-            <td>
-              <span>{props.errors[f.name]}</span>
-            </td>
-          </tr>
-        )
-      }
+        <tbody>
+        {
+          props.fields.map((f) =>
+            <tr key={f.name} className={sc('tr')}>
+              <td className={sc('td')}>
+                <span>{f.label}</span>
+              </td>
+              <td className={sc('td')}>
+                <Input
+                  type={f.input.type}
+                  value={formData[f.name]}
+                  onChange={(e) => onInputChange(f.name, e.target.value)}/>
+              </td>
+              <td>
+                <span>{props.errors[f.name]}</span>
+              </td>
+            </tr>
+          )
+        }
+        <tr>
+          <td className={sc('td')}/>
+          <td className={sc('td')}>
+            {props.buttons}
+          </td>
+        </tr>
+        </tbody>
       </table>
-      <div>
-        {props.buttons}
-      </div>
+
     </form>
   );
 };

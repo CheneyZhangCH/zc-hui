@@ -5,11 +5,10 @@ import './button.scss';
 
 const sc = createScopedClasses('btn');
 
-
 type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
 interface IBaseButtonProps {
-  type?: 'default' | 'primary' | 'text';
+  type?: 'default' | 'primary' | 'text' | 'submit';
   shape?: 'square' | 'circle';
   size?: 'normal' | 'small' | 'large';
   className?: string;
@@ -51,8 +50,8 @@ const Button: React.FunctionComponent<IButtonProps> = ({ type, shape, size, clas
       return e.preventDefault();
     }
 
-    if(onClick) {
-      (onClick as React.MouseEventHandler<HTMLButtonElement | HTMLAnchorElement>)(e)
+    if (onClick) {
+      (onClick as React.MouseEventHandler<HTMLButtonElement | HTMLAnchorElement>)(e);
     }
   };
 
@@ -70,4 +69,11 @@ const Button: React.FunctionComponent<IButtonProps> = ({ type, shape, size, clas
     </button>
   );
 };
+
+Button.defaultProps = {
+  type: 'default',
+  shape: 'square',
+  size: 'normal',
+};
+
 export default Button;

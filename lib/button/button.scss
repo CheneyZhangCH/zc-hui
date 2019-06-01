@@ -1,9 +1,19 @@
 @import "../theme";
 .hui-btn {
-  width: 6em;
-  height: 3em;
+  padding: 4px 16px;
+  line-height: 22px;
   border-radius: 4px;
+  transition: color 500ms, border-color 500ms;
+  border: 1px solid lighten(#333, 50%);
+  &:hover, &:focus {
+    color: $primary-color;
+    border-color: $primary-color;
+  }
+  &:focus {
+    outline: none;
+  }
   &-primary {
+    color: #000;
     background-color: $primary-color;
     border: 1px solid $primary-color;
   }
@@ -15,13 +25,15 @@
     background-color: transparent;
   }
   &-small {
-    width: 4em;
-    height: 2em;
+    line-height: 14px;
     border-radius: 2px
   }
+  &-normal {
+    line-height: 18px;
+    border-radius: 4px
+  }
   &-large {
-    width: 8em;
-    height: 4em;
+    line-height: 22px;
     border-radius: 4px
   }
 }

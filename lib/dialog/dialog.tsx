@@ -40,14 +40,15 @@ const Dialog: React.FunctionComponent<IDialogProps> = (props) => {
     else props.onClose(e);
   };
 
-  let dialogRef: HTMLElement;
-  let headerRef: HTMLElement;
+  let dialogRef: HTMLElement | null;
+  let headerRef: HTMLElement | null;
   let position = { startX: 0, startY: 0, dx: 0, dy: 0, tx: 0, ty: 0 };
 
-  const dialogMove = (e) => {
+  const dialogMove: React.MouseEventHandler<HTMLElement> = (e) => {
     const tx = e.pageX - position.startX;
     const ty = e.pageY - position.startY;
-    dialogRef.style.transform = `translate(${tx}px,${ty}px)`;
+    if (dialogRef)
+      dialogRef.style.transform = `translate(${tx}px,${ty}px)`;
     position.dx = tx;
     position.dy = ty;
   };
