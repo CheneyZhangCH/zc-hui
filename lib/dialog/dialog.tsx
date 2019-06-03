@@ -44,7 +44,7 @@ const Dialog: React.FunctionComponent<IDialogProps> = (props) => {
   let headerRef: HTMLElement | null;
   let position = { startX: 0, startY: 0, dx: 0, dy: 0, tx: 0, ty: 0 };
 
-  const dialogMove: React.MouseEventHandler<HTMLElement> = (e) => {
+  const dialogMove: { (event: MouseEvent): void } = (e: MouseEvent) => {
     const tx = e.pageX - position.startX;
     const ty = e.pageY - position.startY;
     if (dialogRef)
@@ -53,15 +53,15 @@ const Dialog: React.FunctionComponent<IDialogProps> = (props) => {
     position.dy = ty;
   };
 
-  const moveStart = (e) => {
-    console.log('e', e)
+  const moveStart: { (event: MouseEvent): void } = (e: MouseEvent) => {
+    console.log('e', e);
     if (e.button !== 0) return;
     document.addEventListener('mousemove', dialogMove);
     position.startX = e.pageX - position.dx;
     position.startY = e.pageY - position.dy;
   };
 
-  const moveEnd = (e) => {
+  const moveEnd: { (event: MouseEvent): void } = (e: MouseEvent) => {
     document.removeEventListener('mousemove', dialogMove);
   };
 
