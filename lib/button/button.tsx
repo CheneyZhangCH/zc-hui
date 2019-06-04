@@ -1,6 +1,8 @@
 import React from 'react';
 
 import classes, { createScopedClasses } from '../helper/classes';
+import { Icon } from '../index';
+
 import './button.scss';
 
 const sc = createScopedClasses('btn');
@@ -32,7 +34,7 @@ type NativeButtonProps = {
 
 type IButtonProps = Partial<AnchorButtonProps & NativeButtonProps>;
 
-const Button: React.FunctionComponent<IButtonProps> = ({ type, shape, size, className, icon, onClick, children, ...rest }) => {
+const Button: React.FunctionComponent<IButtonProps> = ({ type, shape, size, className, icon, iconPosition, iconFill, onClick, children, ...rest }) => {
   const classNames: (string | undefined)[] = [];
   const classParams = {
     [`${type}`]: type,
@@ -58,14 +60,18 @@ const Button: React.FunctionComponent<IButtonProps> = ({ type, shape, size, clas
   if (rest.href !== undefined) {
     return (
       <a className={classes('hui-btn', className, ...classNames)} href={rest.href} target={rest.target} {...rest}>
+        {icon && iconPosition !== 'right' && <Icon fill={iconFill} className='hui-btn-icon' name={icon}/>}
         {children}
+        {icon && iconPosition === 'right' && <Icon fill={iconFill} className='hui-btn-icon' name={icon}/>}
       </a>
     );
   }
 
   return (
     <button onClick={handleClick} className={classes('hui-btn', className, ...classNames)} {...rest}>
+      {icon && iconPosition !== 'right' && <Icon fill={iconFill} className='hui-btn-icon' name={icon}/>}
       {children}
+      {icon && iconPosition === 'right' && <Icon fill={iconFill} className='hui-btn-icon' name={icon}/>}
     </button>
   );
 };

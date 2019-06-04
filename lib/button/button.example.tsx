@@ -4,7 +4,7 @@ import Button from "./button";
 const IconExample: React.FunctionComponent = () => {
   return (
     <div>
-      <Button style={{ marginRight: 10 }} type="primary">
+      <Button style={{ marginRight: 10 }} type="primary" icon='wechat'>
         Primary
       </Button>
       <Button style={{ marginRight: 10 }} type="text">
