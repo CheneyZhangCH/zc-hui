@@ -38,7 +38,7 @@ const Form: React.FunctionComponent<IFormProps> = (props) => {
 
   return (
     <form onSubmit={onSubmit}>
-      <table>
+      <table className={sc('table')}>
         <tbody>
         {
           props.fields.map((f) =>
@@ -47,13 +47,13 @@ const Form: React.FunctionComponent<IFormProps> = (props) => {
                 <span>{f.label}</span>
               </td>
               <td className={sc('td')}>
-                <Input
-                  type={f.input.type}
-                  value={formData[f.name]}
-                  onChange={(e) => onInputChange(f.name, e.target.value)}/>
+                <Input className={sc('input')}
+                       type={f.input.type}
+                       value={formData[f.name]}
+                       onChange={(e) => onInputChange(f.name, e.target.value)}/>
               </td>
-              <td>
-                <span>{props.errors[f.name]}</span>
+              <td className={sc('td')}>
+                <div>{props.errors[f.name] && props.errors[f.name].join('， ')}</div>
               </td>
             </tr>
           )

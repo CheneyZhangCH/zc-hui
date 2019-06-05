@@ -19,6 +19,7 @@
     &:hover, &:focus {
       color: #fff;
       background-color: lighten($primary-color, 10%);
+      border-color: lighten($primary-color, 10%);
     }
   }
   &-default {

@@ -1,5 +1,8 @@
 @import "../theme";
 .hui-form {
+  &-table {
+    border-collapse: collapse;
+  }
   &-td {
     padding-top: 0;
     padding-bottom: 32px;
