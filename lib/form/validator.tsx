@@ -11,10 +11,6 @@ interface IFormRules {
 
 type FormRules = Array<IFormRules>
 
-interface IFormError {
-  [key: string]: string[];
-}
-
 function isEmpty(value: any) {
   return value === undefined || value === null || value === '';
 }
@@ -23,7 +19,7 @@ export function noError(error: any) {
   return Object.keys(error).length === 0;
 }
 
-const Validator = (formValue: IFormValue, rules: FormRules): IFormError => {
+const Validator = (formValue: IFormValue, rules: FormRules, callback: (errors: any) => void): void => {
   let errors: any = {};
 
   const addError = (key: string, message: string | Promise<string>) => {
@@ -54,33 +50,23 @@ const Validator = (formValue: IFormValue, rules: FormRules): IFormError => {
     if (rule.pattern && !(rule.pattern.test(value))) {
       addError(rule.key, '格式错误');
     }
-
-    console.log(rule);
   });
 
-  console.log('errors', errors);
-
   // Object.keys(errors) === ['username', 'password']
-  const x = Object.keys(errors).map(key =>
+  const flatErrors = flat(Object.keys(errors).map(key =>
     // error[key] === [promise, promise]
     errors[key].map(promise => [key, promise])
+  ));
+
+  const newPromises = flatErrors.map(([key, promiseOrSting]) =>
+    (promiseOrSting instanceof Promise ? promiseOrSting : Promise.reject(promiseOrSting))
+      .then(() => [key, undefined], (reason) => [key, reason])
   );
 
-  console.log('x', x);
-
-  const y = flat(x);
-
-  console.log('y', y);
-
-  const z = y.map(([key, promiseOrSting]) =>
-    (promiseOrSting instanceof Promise ? promiseOrSting : Promise.reject(promiseOrSting)).then(() => [key, undefined], (reason) => [key, reason])
+  Promise.all(newPromises).then(result => {
+      callback(zip(result.filter(item => item[1])));
+    }
   );
-  console.log('z', z);
-  Promise.all(z).then(res =>
-    console.log('res', res)
-  );
-
-  // return errors;
 };
 
 function flat(arr: Array<any>) {

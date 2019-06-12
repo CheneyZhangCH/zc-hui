@@ -2,7 +2,7 @@ import React, { Fragment, useState } from 'react';
 import { Button } from '../index';
 
 import Form, { IFormValue } from './form';
-import Validator from './validator';
+import Validator, {noError} from './validator';
 
 const usernames = ['cheney', 'zch'];
 const checkUserName = (username: string, success: () => void, fail: () => void) => {
@@ -44,8 +44,12 @@ const FormExample: React.FunctionComponent = () => {
       { key: 'password', validator },
     ];
 
-    const errors = Validator(formData, rules);
-    setErrors(errors);
+    const errors = Validator(formData, rules, (errors) => {
+      setErrors(errors);
+      if (noError(errors)) {
+        // 没错
+      }
+    );
 
     console.log(formData);
     console.log(errors);

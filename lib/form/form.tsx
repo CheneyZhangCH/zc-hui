@@ -52,9 +52,9 @@ const Form: React.FunctionComponent<IFormProps> = (props) => {
                        value={formData[f.name]}
                        onChange={(e) => onInputChange(f.name, e.target.value)}/>
               </td>
-              {/*<td className={sc('td')}>*/}
-                {/*<div>{props.errors[f.name] && props.errors[f.name].join('， ')}</div>*/}
-              {/*</td>*/}
+              <td className={sc('td')}>
+                <div>{props.errors[f.name] && props.errors[f.name].join('， ')}</div>
+              </td>
             </tr>
           )
         }
