@@ -12,22 +12,21 @@ const sc = createScopedClasses('dialog');
 // import classes from '../helper/classes';
 
 interface IDialogProps {
-  visible: boolean;
+  visible: boolean,
+  // 展示的header title
+  title: string | ReactNode,
   buttons?: Array<ReactElement>;
   onClose: React.MouseEventHandler;
   // 点击遮罩层是否关闭
   noCloseOnClickMask?: boolean;
-  // 展示的header title
-  title?: string;
   // 是否展示右上角X按钮
   showClose?: boolean;
   // 是否展示取消按钮
   showCancel?: boolean;
   // 取消按钮展示文案，默认为'取消'
-  cancelBtn?: string;
+  cancelText?: string;
   // 确认按钮展示文案，默认为'确认'
-  confirmBtn?: string;
-
+  okText?: string;
 }
 
 const Dialog: React.FunctionComponent<IDialogProps> = (props) => {
@@ -84,7 +83,7 @@ const Dialog: React.FunctionComponent<IDialogProps> = (props) => {
       <div className={sc('')} ref={ref => dialogRef = ref}>
         <Icon name="close" className={sc('close')} onClick={handleClose}/>
         <header className={sc('header')} ref={ref => headerRef = ref}>
-          提示
+          {props.title}
         </header>
         <main className={sc('main')}>
           {props.children}
@@ -106,7 +105,19 @@ const Dialog: React.FunctionComponent<IDialogProps> = (props) => {
   );
 };
 
-const modal = (content: ReactNode, buttons?: Array<ReactElement>, onCancel?: () => void) => {
+Dialog.defaultProps = {
+  title: '提示',
+};
+
+interface IModalProps {
+  title: string | ReactNode,
+  content: ReactNode,
+  buttons?: Array<ReactElement>,
+  onCancel?: () => void,
+}
+
+const modal = (props: IModalProps) => {
+  const { title, content, buttons, onCancel, ...rest } = props;
   const onClose = () => {
     console.log('onClose');
     ReactDOM.render(React.cloneElement(component, { visible: false }), divWrap);
@@ -116,10 +127,12 @@ const modal = (content: ReactNode, buttons?: Array<ReactElement>, onCancel?: () 
 
   const component = (
     <Dialog visible={true}
+            title={title}
             onClose={() => {
               onCancel && onCancel();
               onClose();
             }}
+            {...rest}
             buttons={buttons}
     >
       {content}
@@ -131,12 +144,29 @@ const modal = (content: ReactNode, buttons?: Array<ReactElement>, onCancel?: () 
   return onClose;
 };
 
-const alert = (content: string) => {
-  const buttons = [<Button type="primary" onClick={() => close()}>确认</Button>];
-  const close = modal(content, buttons);
+interface IAlertProps {
+  title?: string | ReactNode,
+  content: string | ReactNode,
+  okText?: string,
+}
+
+const alert = (props: IAlertProps) => {
+  const { title, content, okText } = props;
+  const buttons = [<Button type="primary" onClick={() => close()}>{okText ? okText : '确定'}</Button>];
+  const close = modal({ title, content, buttons });
 };
 
-const confirm = (content: string, onConfirm?: () => void, onCancel?: () => void) => {
+interface IConfirmProps {
+  title: string | ReactNode,
+  content?: string | ReactNode,
+  onConfirm?: () => void,
+  onCancel?: () => void,
+  cancelText?: string,
+  okText?: string
+}
+
+const confirm = (props: IConfirmProps) => {
+  const { title, content, onConfirm, onCancel, cancelText, okText } = props;
   const handleConfirm = () => {
     console.log('handleConfirm');
     handleClose();
@@ -150,11 +180,11 @@ const confirm = (content: string, onConfirm?: () => void, onCancel?: () => void)
   };
 
   const buttons = [
-    <Button onClick={handleCancel}>取消</Button>,
-    <Button onClick={handleConfirm} type="primary">确认</Button>
+    <Button onClick={handleCancel}>{cancelText ? cancelText : '取消'}</Button>,
+    <Button onClick={handleConfirm} type="primary">{okText ? okText : '确定'}</Button>
   ];
 
-  const handleClose = modal(content, buttons, onCancel);
+  const handleClose = modal({ title, content, buttons });
 };
 
 export { alert, confirm, modal };

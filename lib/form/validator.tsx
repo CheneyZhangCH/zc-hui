@@ -6,6 +6,7 @@ interface IFormRules {
   maxLength?: number;
   minLength?: number;
   pattern?: RegExp;
+  validator?: (value: string) => Promise<string>;
 }
 
 type FormRules = Array<IFormRules>
@@ -25,13 +26,18 @@ export function noError(error: any) {
 const Validator = (formValue: IFormValue, rules: FormRules): IFormError => {
   let errors: any = {};
 
-  const addError = (key: string, message: string) => {
+  const addError = (key: string, message: string | Promise<string>) => {
     if (errors[key] === undefined) errors[key] = [];
     errors[key].push(message);
   };
 
   rules.map(rule => {
     const value = formValue[rule.key];
+
+    if (rule.validator) {
+      const promise = rule.validator(value);
+      addError(rule.key, promise);
+    }
 
     if (rule.required && isEmpty(value)) {
       addError(rule.key, '必填');
@@ -52,7 +58,50 @@ const Validator = (formValue: IFormValue, rules: FormRules): IFormError => {
     console.log(rule);
   });
 
-  return errors;
+  console.log('errors', errors);
+
+  // Object.keys(errors) === ['username', 'password']
+  const x = Object.keys(errors).map(key =>
+    // error[key] === [promise, promise]
+    errors[key].map(promise => [key, promise])
+  );
+
+  console.log('x', x);
+
+  const y = flat(x);
+
+  console.log('y', y);
+
+  const z = y.map(([key, promiseOrSting]) =>
+    (promiseOrSting instanceof Promise ? promiseOrSting : Promise.reject(promiseOrSting)).then(() => [key, undefined], (reason) => [key, reason])
+  );
+  console.log('z', z);
+  Promise.all(z).then(res =>
+    console.log('res', res)
+  );
+
+  // return errors;
 };
+
+function flat(arr: Array<any>) {
+  const result = [];
+  for (let i = 0; i < arr.length; i++) {
+    if (arr[i] instanceof Array) {
+      result.push(...arr[i]);
+    } else {
+      result.push(arr[i]);
+    }
+  }
+  return result;
+}
+
+function zip(kvList: Array<[string, string]>) {
+  const result = {};
+  kvList.map(([key, value]) => {
+    result[key] = result[key] || [];
+    result[key].push(value);
+  });
+  return result;
+}
 
 export default Validator;

@@ -4,6 +4,14 @@ import { Button } from '../index';
 import Form, { IFormValue } from './form';
 import Validator from './validator';
 
+const usernames = ['cheney', 'zch'];
+const checkUserName = (username: string, success: () => void, fail: () => void) => {
+  setTimeout(() => {
+    if (usernames.indexOf(username) >= 0) fail();
+    else success();
+  }, 2000);
+};
+
 const FormExample: React.FunctionComponent = () => {
 
   const [formData, setFormData] = useState<IFormValue>({
@@ -18,12 +26,22 @@ const FormExample: React.FunctionComponent = () => {
 
   const [errors, setErrors] = useState({});
 
+  const validator = (username: string) => {
+    console.log('调用validator');
+    return new Promise<string>((resolve, reject) => {
+      checkUserName(username, resolve, () => reject('unique'));
+    });
+  };
+
   const onSubmit = (e: React.FormEvent) => {
     const rules = [
       { key: 'username', required: true },
       { key: 'username', minLength: 6, maxLength: 16 },
-      { key: 'username', pattern: /^[A-Za-z0-9]+$/ },
+      { key: 'username', validator },
+      { key: 'username', validator },
       { key: 'password', required: true },
+      { key: 'password', validator },
+      { key: 'password', validator },
     ];
 
     const errors = Validator(formData, rules);
