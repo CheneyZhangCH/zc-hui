@@ -139,7 +139,7 @@ const modal = (props: IModalProps) => {
     </Dialog>
   );
   const divWrap = document.createElement('div');
-  document.body.append(divWrap);
+  document.body.appendChild(divWrap);
   ReactDOM.render(component, divWrap);
   return onClose;
 };
