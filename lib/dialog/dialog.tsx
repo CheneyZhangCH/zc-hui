@@ -1,11 +1,8 @@
 import React, { Fragment, ReactElement, ReactNode, useEffect } from 'react';
 import ReactDOM from 'react-dom';
-
 import { createScopedClasses } from '../helper/classes';
-
-import './dialog.scss';
-
 import { Button, Icon } from '../index';
+import './dialog.scss';
 
 const sc = createScopedClasses('dialog');
 
@@ -14,7 +11,7 @@ const sc = createScopedClasses('dialog');
 interface IDialogProps {
   visible: boolean,
   // 展示的header title
-  title: string | ReactNode,
+  title?: string | ReactNode,
   buttons?: Array<ReactElement>;
   onClose: React.MouseEventHandler;
   // 点击遮罩层是否关闭
@@ -83,7 +80,7 @@ const Dialog: React.FunctionComponent<IDialogProps> = (props) => {
       <div className={sc('')} ref={ref => dialogRef = ref}>
         <Icon name="close" className={sc('close')} onClick={handleClose}/>
         <header className={sc('header')} ref={ref => headerRef = ref}>
-          {props.title}
+          {props.title || '提示'}
         </header>
         <main className={sc('main')}>
           {props.children}
@@ -105,12 +102,8 @@ const Dialog: React.FunctionComponent<IDialogProps> = (props) => {
   );
 };
 
-Dialog.defaultProps = {
-  title: '提示',
-};
-
 interface IModalProps {
-  title: string | ReactNode,
+  title?: string | ReactNode,
   content: ReactNode,
   buttons?: Array<ReactElement>,
   onCancel?: () => void,
@@ -146,7 +139,7 @@ const modal = (props: IModalProps) => {
 
 interface IAlertProps {
   title?: string | ReactNode,
-  content: string | ReactNode,
+  content?: string | ReactNode,
   okText?: string,
 }
 
@@ -157,7 +150,7 @@ const alert = (props: IAlertProps) => {
 };
 
 interface IConfirmProps {
-  title: string | ReactNode,
+  title?: string | ReactNode,
   content?: string | ReactNode,
   onConfirm?: () => void,
   onCancel?: () => void,

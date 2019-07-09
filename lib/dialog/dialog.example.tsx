@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react';
+import React, { useState } from 'react';
 import { Button } from '../index';
 import Dialog, { alert, confirm, modal } from './dialog';
 
@@ -6,18 +6,19 @@ const DialogExample: React.FunctionComponent = () => {
   const [x, setX] = useState(false);
 
   const openModal = () => {
-    const close = modal(
-      <Fragment>
-        <div>this is a div</div>
+    const close = modal({
+      title: '提示',
+      content: (<div>this is a div</div>),
+      buttons: [
         <Button type="primary" onClick={() => close()}>close</Button>
-      </Fragment>
-    );
+      ],
+    });
   };
 
   return (
     <div>
       <Button onClick={() => setX(!x)} style={{ marginRight: 10 }}>Dialog</Button>
-      <Dialog visible={x} buttons={[
+      <Dialog visible={x} title='提示' buttons={[
         <Button onClick={() => setX(false)}>cancel</Button>,
         <Button onClick={() => setX(false)} type='primary'>ok</Button>]}
               onClose={() => setX(false)}
@@ -26,10 +27,11 @@ const DialogExample: React.FunctionComponent = () => {
       </Dialog>
       <Button style={{ marginRight: 10 }} onClick={() => alert('alert')}>alert</Button>
       <Button style={{ marginRight: 10 }} type='primary' onClick={() =>
-        confirm('confirm', () => {
-          console.log('你点击了yes');
-        }, () => {
-          console.log('你点击了no');
+        confirm({
+          title: '提示',
+          okText: 'confirm',
+          onCancel: () => { console.log('你点击了no'); },
+          onConfirm: () => { console.log('你点击了no'); },
         })}>confirm</Button>
       <Button style={{ marginRight: 10 }} onClick={openModal}>modal</Button>
     </div>
