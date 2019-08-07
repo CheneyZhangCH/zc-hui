@@ -1,4 +1,4 @@
-import { IFormValue } from './form';
+import {IFormValue} from './form';
 
 interface IFormRules {
   key: string;

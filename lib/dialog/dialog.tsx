@@ -137,14 +137,14 @@ const modal = (props: IModalProps) => {
   return onClose;
 };
 
-interface IAlertProps {
+interface IWarningProps {
   title?: string | ReactNode,
   content?: string | ReactNode,
   okText?: string,
 }
 
-const alert = (props: IAlertProps) => {
-  const { title, content, okText } = props;
+const warning = (props: IWarningProps) => {
+  const { title='警告', content, okText } = props;
   const buttons = [<Button type="primary" onClick={() => close()}>{okText ? okText : '确定'}</Button>];
   const close = modal({ title, content, buttons });
 };
@@ -180,6 +180,6 @@ const confirm = (props: IConfirmProps) => {
   const handleClose = modal({ title, content, buttons });
 };
 
-export { alert, confirm, modal };
+export { warning, confirm, modal };
 
 export default Dialog;

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Button } from '../index';
-import Dialog, { alert, confirm, modal } from './dialog';
+import Dialog, { warning, confirm, modal } from './dialog';
 
 const DialogExample: React.FunctionComponent = () => {
   const [x, setX] = useState(false);
@@ -25,7 +25,7 @@ const DialogExample: React.FunctionComponent = () => {
       >
         <div>dialog</div>
       </Dialog>
-      <Button style={{ marginRight: 10 }} onClick={() => alert('alert')}>alert</Button>
+      <Button style={{ marginRight: 10 }} onClick={() => warning({content: 'warning'})}>warning</Button>
       <Button style={{ marginRight: 10 }} type='primary' onClick={() =>
         confirm({
           title: '提示',

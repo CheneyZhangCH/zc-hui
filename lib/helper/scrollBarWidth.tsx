@@ -1,5 +1,5 @@
 export default function scrollbarWidth() {
-  if (typeof document === 'undefined')     return 0;
+  if (typeof document === 'undefined') return 0;
 
   const divElement = document.createElement('div');
   const divElementStyle = divElement.style;
