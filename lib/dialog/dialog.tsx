@@ -58,26 +58,28 @@ const Dialog: React.FunctionComponent<IDialogProps> = (props) => {
   };
 
   const moveEnd: { (event: MouseEvent): void } = (e: MouseEvent) => {
-    document.removeEventListener('mousemove', dialogMove);
+    document.removeEventListener('mousemove', dialogMove)
   };
 
   useEffect(() => {
-    position = { startX: 0, startY: 0, dx: dialogRef ? -dialogRef.clientWidth / 2 : 0, dy: 0, tx: 0, ty: 0 };
-    if (headerRef) headerRef.addEventListener('mousedown', moveStart);
-    document.addEventListener('mouseup', moveEnd);
+    if (props.visible) {
+      position = { startX: 0, startY: 0, dx: dialogRef ? -dialogRef.clientWidth / 2 : 0, dy: 0, tx: 0, ty: 0 }
+      if (headerRef) headerRef.addEventListener('mousedown', moveStart)
+      document.addEventListener('mouseup', moveEnd)
 
-    return () => {
-      if (headerRef)
-        headerRef.removeEventListener('mousedown', moveStart);
-      document.removeEventListener('mouseup', moveEnd);
-      document.removeEventListener('mousemove', dialogMove);
-    };
-  }, []);
+      return () => {
+        if (headerRef)
+          headerRef.removeEventListener('mousedown', moveStart)
+        document.removeEventListener('mouseup', moveEnd)
+        document.removeEventListener('mousemove', dialogMove)
+      }
+    }
+  }, [props.visible])
 
   const result = props.visible ?
     <Fragment>
       <div className={sc('mask')} onClick={handleClickMask}/>
-      <div className={sc('')} ref={ref => dialogRef = ref}>
+      <div className={sc('')} ref={ref => dialogRef = ref} >
         <Icon name="close" className={sc('close')} onClick={handleClose}/>
         <header className={sc('header')} ref={ref => headerRef = ref}>
           {props.title || '提示'}
@@ -112,7 +114,7 @@ interface IModalProps {
 const modal = (props: IModalProps) => {
   const { title, content, buttons, onCancel, ...rest } = props;
   const onClose = () => {
-    console.log('onClose');
+    // console.log('onClose');
     ReactDOM.render(React.cloneElement(component, { visible: false }), divWrap);
     ReactDOM.unmountComponentAtNode(divWrap);
     divWrap.remove();
@@ -161,13 +163,13 @@ interface IConfirmProps {
 const confirm = (props: IConfirmProps) => {
   const { title, content, onConfirm, onCancel, cancelText, okText } = props;
   const handleConfirm = () => {
-    console.log('handleConfirm');
+    // console.log('handleConfirm');
     handleClose();
     onConfirm && onConfirm();
   };
 
   const handleCancel = () => {
-    console.log('handleCancel');
+    // console.log('handleCancel');
     handleClose();
     onCancel && onCancel();
   };
