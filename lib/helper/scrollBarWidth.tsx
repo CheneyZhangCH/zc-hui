@@ -5,7 +5,7 @@ export default function scrollbarWidth() {
   const divElementStyle = divElement.style;
 
   divElementStyle.position = 'fixed';
-  divElementStyle.left = 0;
+  divElementStyle.left = String(0);
   divElementStyle.visibility = 'hidden';
   divElementStyle.overflowY = 'scroll';
 

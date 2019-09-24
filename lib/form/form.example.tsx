@@ -45,11 +45,11 @@ const FormExample: React.FunctionComponent = () => {
     ];
 
     const errors = Validator(formData, rules, (errors) => {
-      setErrors(errors);
       if (noError(errors)) {
-        // 没错
+      } else {
+        setErrors(errors);
       }
-    );
+    });
 
     console.log(formData);
     console.log(errors);

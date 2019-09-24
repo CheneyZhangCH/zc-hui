@@ -55,7 +55,7 @@ const Validator = (formValue: IFormValue, rules: FormRules, callback: (errors: a
   // Object.keys(errors) === ['username', 'password']
   const flatErrors = flat(Object.keys(errors).map(key =>
     // error[key] === [promise, promise]
-    errors[key].map(promise => [key, promise])
+    errors[key].map((promise: any) => [key, promise])
   ));
 
   const newPromises = flatErrors.map(([key, promiseOrSting]) =>
