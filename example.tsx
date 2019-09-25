@@ -46,6 +46,7 @@ ReactDom.render(
             </ul>
           </Aside>
           <Content>
+            <Route path="/" exact component={IconExample}/>
             <Route path="/icon" component={IconExample}/>
             <Route path="/button" component={ButtonExample}/>
             <Route path="/dialog" component={DialogExample}/>
