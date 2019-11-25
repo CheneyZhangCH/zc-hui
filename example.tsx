@@ -4,6 +4,7 @@ import { HashRouter as Router, Route, NavLink } from 'react-router-dom';
 
 import IconExample from './lib/icon/icon.example';
 import ButtonExample from './lib/button/button.example';
+import CarouselExample from './lib/carousel/carousel.example';
 import DialogExample from './lib/dialog/dialog.example';
 import LayoutExample from './lib/layout/layout.example';
 import FormExample from './lib/form/form.example';
@@ -43,6 +44,9 @@ ReactDom.render(
               <li>
                 <NavLink to="/scroll">Scroll 滚动条</NavLink>
               </li>
+              <li>
+                <NavLink to="/carousel">Carousel 轮播</NavLink>
+              </li>
             </ul>
           </Aside>
           <Content>
@@ -53,6 +57,7 @@ ReactDom.render(
             <Route path="/layout" component={LayoutExample}/>
             <Route path="/form" component={FormExample}/>
             <Route path="/scroll" component={ScrollExample}/>
+            <Route path="/carousel" component={CarouselExample }/>
           </Content>
         </Layout>
         <Footer>

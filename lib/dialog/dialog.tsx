@@ -1,10 +1,10 @@
-import React, { Fragment, ReactElement, ReactNode, useEffect } from 'react';
-import ReactDOM from 'react-dom';
-import { createScopedClasses } from '../helper/classes';
-import { Button, Icon } from '../index';
-import './dialog.scss';
+import React, { Fragment, ReactElement, ReactNode, useEffect } from 'react'
+import ReactDOM from 'react-dom'
+import { createScopedClasses } from '../helper/classes'
+import { Button, Icon } from '../index'
+import './dialog.scss'
 
-const sc = createScopedClasses('dialog');
+const sc = createScopedClasses('dialog')
 
 // import classes from '../helper/classes';
 
@@ -28,38 +28,38 @@ interface IDialogProps {
 
 const Dialog: React.FunctionComponent<IDialogProps> = (props) => {
   const handleClose: React.MouseEventHandler = (e) => {
-    props.onClose(e);
-  };
+    props.onClose(e)
+  }
 
   const handleClickMask: React.MouseEventHandler = (e) => {
-    if (props.noCloseOnClickMask === true) e.preventDefault();
-    else props.onClose(e);
-  };
+    if (props.noCloseOnClickMask === true) e.preventDefault()
+    else props.onClose(e)
+  }
 
-  let dialogRef: HTMLElement | null;
-  let headerRef: HTMLElement | null;
-  let position = { startX: 0, startY: 0, dx: 0, dy: 0, tx: 0, ty: 0 };
+  let dialogRef: HTMLElement | null
+  let headerRef: HTMLElement | null
+  let position = { startX: 0, startY: 0, dx: 0, dy: 0, tx: 0, ty: 0 }
 
   const dialogMove: { (event: MouseEvent): void } = (e: MouseEvent) => {
-    const tx = e.pageX - position.startX;
-    const ty = e.pageY - position.startY;
+    const tx = e.pageX - position.startX
+    const ty = e.pageY - position.startY
     if (dialogRef)
-      dialogRef.style.transform = `translate(${tx}px,${ty}px)`;
-    position.dx = tx;
-    position.dy = ty;
-  };
+      dialogRef.style.transform = `translate(${tx}px,${ty}px)`
+    position.dx = tx
+    position.dy = ty
+  }
 
   const moveStart: { (event: MouseEvent): void } = (e: MouseEvent) => {
-    console.log('e', e);
-    if (e.button !== 0) return;
-    document.addEventListener('mousemove', dialogMove);
-    position.startX = e.pageX - position.dx;
-    position.startY = e.pageY - position.dy;
-  };
+    console.log('e', e)
+    if (e.button !== 0) return
+    document.addEventListener('mousemove', dialogMove)
+    position.startX = e.pageX - position.dx
+    position.startY = e.pageY - position.dy
+  }
 
   const moveEnd: { (event: MouseEvent): void } = (e: MouseEvent) => {
     document.removeEventListener('mousemove', dialogMove)
-  };
+  }
 
   useEffect(() => {
     if (props.visible) {
@@ -74,13 +74,14 @@ const Dialog: React.FunctionComponent<IDialogProps> = (props) => {
         document.removeEventListener('mousemove', dialogMove)
       }
     }
+    return
   }, [props.visible])
 
   const result = props.visible ?
     <Fragment>
       <div className={sc('mask')} onClick={handleClickMask}/>
-      <div className={sc('')} ref={ref => dialogRef = ref} >
-        <Icon name="close" className={sc('close')} onClick={handleClose}/>
+      <div className={sc('')} ref={ref => dialogRef = ref}>
+        {props.showClose && <Icon name="close" className={sc('close')} onClick={handleClose}/>}
         <header className={sc('header')} ref={ref => headerRef = ref}>
           {props.title || '提示'}
         </header>
@@ -89,20 +90,20 @@ const Dialog: React.FunctionComponent<IDialogProps> = (props) => {
         </main>
         {
           props.buttons && props.buttons.length > 0 &&
-          <footer className={sc('footer')}>
+					<footer className={sc('footer')}>
             {props.buttons && props.buttons.length > 0 && props.buttons.map((button, index) => {
-              return React.cloneElement(button, { key: index });
+              return React.cloneElement(button, { key: index })
             })}
-          </footer>
+					</footer>
         }
       </div>
     </Fragment> :
-    null;
+    null
 
   return (
     ReactDOM.createPortal(result, document.body)
-  );
-};
+  )
+}
 
 interface IModalProps {
   title?: string | ReactNode,
@@ -112,32 +113,32 @@ interface IModalProps {
 }
 
 const modal = (props: IModalProps) => {
-  const { title, content, buttons, onCancel, ...rest } = props;
+  const { title, content, buttons, onCancel, ...rest } = props
   const onClose = () => {
     // console.log('onClose');
-    ReactDOM.render(React.cloneElement(component, { visible: false }), divWrap);
-    ReactDOM.unmountComponentAtNode(divWrap);
-    divWrap.remove();
-  };
+    ReactDOM.render(React.cloneElement(component, { visible: false }), divWrap)
+    ReactDOM.unmountComponentAtNode(divWrap)
+    divWrap.remove()
+  }
 
   const component = (
     <Dialog visible={true}
             title={title}
             onClose={() => {
-              onCancel && onCancel();
-              onClose();
+              onCancel && onCancel()
+              onClose()
             }}
             {...rest}
             buttons={buttons}
     >
       {content}
     </Dialog>
-  );
-  const divWrap = document.createElement('div');
-  document.body.appendChild(divWrap);
-  ReactDOM.render(component, divWrap);
-  return onClose;
-};
+  )
+  const divWrap = document.createElement('div')
+  document.body.appendChild(divWrap)
+  ReactDOM.render(component, divWrap)
+  return onClose
+}
 
 interface IWarningProps {
   title?: string | ReactNode,
@@ -146,10 +147,10 @@ interface IWarningProps {
 }
 
 const warning = (props: IWarningProps) => {
-  const { title='警告', content, okText } = props;
-  const buttons = [<Button type="primary" onClick={() => close()}>{okText ? okText : '确定'}</Button>];
-  const close = modal({ title, content, buttons });
-};
+  const { title = '警告', content, okText } = props
+  const buttons = [<Button type="primary" onClick={() => close()}>{okText ? okText : '确定'}</Button>]
+  const close = modal({ title, content, buttons })
+}
 
 interface IConfirmProps {
   title?: string | ReactNode,
@@ -161,27 +162,27 @@ interface IConfirmProps {
 }
 
 const confirm = (props: IConfirmProps) => {
-  const { title, content, onConfirm, onCancel, cancelText, okText } = props;
+  const { title, content, onConfirm, onCancel, cancelText, okText } = props
   const handleConfirm = () => {
     // console.log('handleConfirm');
-    handleClose();
-    onConfirm && onConfirm();
-  };
+    handleClose()
+    onConfirm && onConfirm()
+  }
 
   const handleCancel = () => {
     // console.log('handleCancel');
-    handleClose();
-    onCancel && onCancel();
-  };
+    handleClose()
+    onCancel && onCancel()
+  }
 
   const buttons = [
     <Button onClick={handleCancel}>{cancelText ? cancelText : '取消'}</Button>,
     <Button onClick={handleConfirm} type="primary">{okText ? okText : '确定'}</Button>
-  ];
+  ]
 
-  const handleClose = modal({ title, content, buttons });
-};
+  const handleClose = modal({ title, content, buttons })
+}
 
-export { warning, confirm, modal };
+export { warning, confirm, modal }
 
-export default Dialog;
+export default Dialog

@@ -26,7 +26,7 @@ const Icon: React.FunctionComponent<IconProps> = ({className, name, ...rest}) =>
   // const {className, name, ...rest} = props;
   // {...props}  大括号是指在react tsx内写js的写法 ...props是指展开
   return (
-    // step 2
+   // step 2
     <svg className={classes('hui-icon', className)} {...rest}>
       <use xlinkHref={`#${name}`}/>
     </svg>

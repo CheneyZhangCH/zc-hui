@@ -1,0 +1,61 @@
+@import "../theme";
+.hui-carousel {
+  position: relative;
+  height: 100%;
+  width: 100%;
+  &-left {
+    position: absolute;
+    top: 50%;
+    left: 8px;
+    transform: translate(0, -50%);
+    z-index: 1;
+  }
+  &-right {
+    position: absolute;
+    top: 50%;
+    right: 8px;
+    transform: translate(0, -50%);
+    z-index: 1;
+  }
+  &-main {
+    height: 100%;
+    width: 100%;
+    position: relative;
+    z-index: 0;
+  }
+  &-img {
+    position: absolute;
+    top: 0;
+    left:0;
+    object-fit: contain;
+    height: 100%;
+    width: 100%;
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+  }
+  &-img-active {
+    opacity: 1;
+  }
+  &-dots {
+    position: absolute;
+    bottom: 8px;
+    left: 50%;
+    transform: translate(-50%, 0);
+    z-index: 1;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+  }
+  &-dot {
+    display: inline-flex;
+    height: 12px;
+    width: 10%;
+    margin: 0 8px;
+    background: #d9d9d9;
+    border-radius: 10px;
+  }
+  &-dot-active {
+    background: #fff;
+  }
+}

@@ -7,8 +7,6 @@ import './button.scss';
 
 const sc = createScopedClasses('btn');
 
-// type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
-
 interface IBaseButtonProps {
   type?: 'default' | 'primary' | 'text' | 'submit';
   shape?: 'square' | 'circle';
