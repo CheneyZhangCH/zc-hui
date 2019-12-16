@@ -6,7 +6,7 @@ const ScrollExample: React.FunctionComponent = () => {
     <div>
       <div>
         <h2>示例1</h2>
-        <Scroll style={{height: '200px'}}>
+        <Scroll style={{height: 200}}>
           <div>1</div>
           <div>2</div>
           <div>3</div>
