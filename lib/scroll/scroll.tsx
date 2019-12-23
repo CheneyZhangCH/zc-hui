@@ -1,28 +1,74 @@
-import * as React from 'react';
-import { HTMLAttributes } from 'react';
-import { createScopedClasses } from '../helper/classes';
+import * as React from 'react'
+import { HTMLAttributes, useEffect, useRef, useState } from 'react'
+import { createScopedClasses } from '../helper/classes'
 
-import './scroll.scss';
+import './scroll.scss'
 
-import scrollBarWidth from './../helper/scrollBarWidth';
+import scrollBarWidth from './../helper/scrollBarWidth'
+import { UIEventHandler } from 'react'
 
-const sc = createScopedClasses('scroll');
+const sc = createScopedClasses('scroll')
 
-interface IScroll extends HTMLAttributes<HTMLDivElement> {
+interface IScrollProps extends HTMLAttributes<HTMLDivElement> {
 
 }
 
-console.log('scrollBarWidth()', scrollBarWidth());
+const Scroll: React.FunctionComponent = (props: IScrollProps) => {
+  const { children, ...rest } = props
 
-const Scroll: React.FunctionComponent = (props: IScroll) => {
-  const { children, ...rest } = props;
+  const [barHeight, setBarHeight] = useState(0)
+  const [barTop, setBarTop] = useState(0)
+
+  const onScroll: UIEventHandler = (e) => {
+    const { current } = containerRef
+    const scrollHeight = current!.scrollHeight
+    const scrollTop = current!.scrollTop
+    const viewHeight = current!.getBoundingClientRect().height
+    setBarTop(scrollTop * viewHeight / scrollHeight)
+  }
+  const containerRef = useRef<HTMLDivElement>(null)
+  useEffect(() => {
+    const scrollHeight = containerRef.current!.scrollHeight
+    const viewHeight = containerRef.current!.getBoundingClientRect().height
+    console.log(scrollHeight)
+    console.log(viewHeight)
+    console.log(viewHeight * viewHeight / scrollHeight)
+    setBarHeight(viewHeight * viewHeight / scrollHeight)
+  }, [])
+  const onBarMouseDown = () => {
+
+  }
+
+  const onBarMouseMove = () => {
+
+  }
+
+  const onBarMouseUp = () => {
+
+  }
+
   return (
     <div className={sc('')} {...rest}>
-      <div className={sc('inner')} style={{ right: -scrollBarWidth() }}>
+      <div
+        className={sc('inner')}
+        style={{ right: -scrollBarWidth() }}
+        ref={containerRef}
+        onScroll={onScroll}>
         {children}
       </div>
-    </div>
-  );
-};
+      <div className={sc('track'}>
+        <div
+          className={sc('bar')}
+          style={{ height: barHeight, transform: `translateY(${barTop}px)` }}
+          onMouseDown={onBarMouseDown}
+          onMouseMove={onBarMouseMove}
+          onMouseUp={onBarMouseUp}
 
-export default Scroll;
+        >
+        </div>
+      </div>
+    </div>
+  )
+}
+
+export default Scroll
