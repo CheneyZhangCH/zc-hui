@@ -13,12 +13,16 @@ interface IScrollProps extends HTMLAttributes<HTMLDivElement> {
 
 }
 
+const isTouchDevice: boolean = 'ontouchstart' in document.documentElement
+
 const Scroll: React.FunctionComponent = (props: IScrollProps) => {
   const { children, ...rest } = props
 
   const [barHeight, setBarHeight] = useState(0)
   const [barTop, _setBarTop] = useState(0)
+  const [barVisible, setBarVisible] = useState(false)
 
+  const timerRef = useRef<number | null>(null)
   const setBarTop = (number: number) => {
     if (number < 0) {return}
     const { current } = containerRef
@@ -29,12 +33,22 @@ const Scroll: React.FunctionComponent = (props: IScrollProps) => {
     _setBarTop(number)
   }
   const onScroll: UIEventHandler = (e) => {
+    setBarVisible(true)
     const { current } = containerRef
     const scrollHeight = current!.scrollHeight
     const scrollTop = current!.scrollTop
     const viewHeight = current!.getBoundingClientRect().height
     setBarTop(scrollTop * viewHeight / scrollHeight)
+    if (timerRef.current !== null) {
+      window.clearTimeout(timerRef.current)
+    }
+    timerRef.current = window.setTimeout(() => {
+      setBarVisible(false)
+    }, 300)
   }
+  useEffect(() => {
+    console.log('barVisible', barVisible)
+  }, [barVisible])
   const containerRef = useRef<HTMLDivElement>(null)
   useEffect(() => {
     const scrollHeight = containerRef.current!.scrollHeight
@@ -91,14 +105,17 @@ const Scroll: React.FunctionComponent = (props: IScrollProps) => {
         onScroll={onScroll}>
         {children}
       </div>
-      <div className={sc('track'}>
-        <div
-          className={sc('bar')}
-          style={{ height: barHeight, transform: `translateY(${barTop}px)` }}
-          onMouseDown={onBarMouseDown}
-        >
+      {barVisible && (
+        <div className={sc('track'}>
+          <div
+            className={sc('bar')}
+            style={{ height: barHeight, transform: `translateY(${barTop}px)` }}
+            onMouseDown={onBarMouseDown}
+          >
+          </div>
         </div>
-      </div>
+      )}
+
     </div>
   )
 }
