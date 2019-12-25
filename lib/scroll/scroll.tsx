@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { HTMLAttributes, MouseEventHandler, useEffect, useRef, useState } from 'react'
+import { HTMLAttributes, MouseEventHandler, TouchEventHandler, useEffect, useRef, useState } from 'react'
 import { createScopedClasses } from '../helper/classes'
 
 import './scroll.scss'
@@ -12,8 +12,6 @@ const sc = createScopedClasses('scroll')
 interface IScrollProps extends HTMLAttributes<HTMLDivElement> {
 
 }
-
-const isTouchDevice: boolean = 'ontouchstart' in document.documentElement
 
 const Scroll: React.FunctionComponent = (props: IScrollProps) => {
   const { children, ...rest } = props
@@ -46,9 +44,6 @@ const Scroll: React.FunctionComponent = (props: IScrollProps) => {
       setBarVisible(false)
     }, 300)
   }
-  useEffect(() => {
-    console.log('barVisible', barVisible)
-  }, [barVisible])
   const containerRef = useRef<HTMLDivElement>(null)
   useEffect(() => {
     const scrollHeight = containerRef.current!.scrollHeight
@@ -91,6 +86,50 @@ const Scroll: React.FunctionComponent = (props: IScrollProps) => {
       document.removeEventListener('selectstart', onSelect)
     }
   }, [])
+
+  const [translateY, _setTranslateY] = useState(0)
+  const setTranslateY = (y: number) => {
+    if (y < 0) {
+      y = 0
+    } else if (y > 100) {
+      y = 100
+    }
+
+    _setTranslateY(y)
+  }
+
+  const touchLastYRef = useRef(0)
+  const moveCountRef = useRef(0)
+  const pullingRef = useRef(false)
+
+  const onTouchStart: TouchEventHandler = (e) => {
+    const scrollTop = containerRef.current!.scrollTop
+    if (scrollTop !== 0) return
+
+    touchLastYRef.current = e.touches[0].clientY
+    moveCountRef.current = 0
+    pullingRef.current = true
+  }
+
+  const onTouchMove: TouchEventHandler = (e) => {
+    moveCountRef.current += 1
+    const distanceY = e.touches[0].clientY - touchLastYRef.current
+    console.log(distanceY)
+    if (moveCountRef.current === 1 && distanceY < 0) {
+      pullingRef.current = false
+      return
+    }
+    if (!pullingRef.current) {
+      return
+    }
+    setTranslateY(translateY + distanceY)
+    touchLastYRef.current = e.touches[0].clientY
+  }
+
+  const onTouchEnd = () => {
+    setTranslateY(0)
+  }
+
   return (
     <div
       className={sc('')}
@@ -100,13 +139,20 @@ const Scroll: React.FunctionComponent = (props: IScrollProps) => {
     >
       <div
         className={sc('inner')}
-        style={{ right: -scrollBarWidth() }}
+        style={{
+          right: -scrollBarWidth(),
+          transform: `translateY(${translateY}px)`,
+        }}
         ref={containerRef}
-        onScroll={onScroll}>
+        onScroll={onScroll}
+        onTouchStart={onTouchStart}
+        onTouchMove={onTouchMove}
+        onTouchEnd={onTouchEnd}
+      >
         {children}
       </div>
       {barVisible && (
-        <div className={sc('track'}>
+        <div className={sc('track')}>
           <div
             className={sc('bar')}
             style={{ height: barHeight, transform: `translateY(${barTop}px)` }}
