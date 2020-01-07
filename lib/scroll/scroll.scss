@@ -8,7 +8,6 @@
     left: 0;
     bottom: 0;
     right: 0;
-    border: 1px solid;
     &::-webkit-scrollbar {
       display: none;
     }
@@ -27,5 +26,11 @@
     top: 0;
     left: 2px;
     border-radius: 3px;
+  }
+  &-pulling {
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 }

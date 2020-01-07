@@ -1,6 +1,7 @@
 import * as React from 'react'
 import { HTMLAttributes, MouseEventHandler, TouchEventHandler, useEffect, useRef, useState } from 'react'
 import { createScopedClasses } from '../helper/classes'
+import { Icon } from '../index'
 
 import './scroll.scss'
 
@@ -10,7 +11,7 @@ import { UIEventHandler } from 'react'
 const sc = createScopedClasses('scroll')
 
 interface IScrollProps extends HTMLAttributes<HTMLDivElement> {
-
+  onRefresh?: () => void
 }
 
 const Scroll: React.FunctionComponent = (props: IScrollProps) => {
@@ -127,6 +128,10 @@ const Scroll: React.FunctionComponent = (props: IScrollProps) => {
   }
 
   const onTouchEnd = () => {
+    if (translateY === 100 && pullingRef.current) {
+      props.onRefresh && props.onRefresh()
+      pullingRef.current = false
+    }
     setTranslateY(0)
   }
 
@@ -161,7 +166,15 @@ const Scroll: React.FunctionComponent = (props: IScrollProps) => {
           </div>
         </div>
       )}
-
+      <div className={sc('pulling')} style={{ height: translateY }}>
+        {
+          translateY === 100 ? (
+            <span>释放刷新</span>
+          ) : (
+            <Icon name={'down'}/>
+          )
+        }
+      </div>
     </div>
   )
 }

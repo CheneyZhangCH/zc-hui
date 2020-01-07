@@ -2,11 +2,15 @@ import * as React from 'react'
 import Scroll from './scroll'
 
 const ScrollExample: React.FunctionComponent = () => {
+  const onRefresh = () => {
+    console.log('刷新一下呗')
+  }
+
   return (
     <div>
       <div>
         <h2>示例1</h2>
-        <Scroll style={{ height: 200 }}>
+        <Scroll style={{ height: 200 }} onRefresh={onRefresh}>
           <div>1</div>
           <div>2</div>
           <div>3</div>
