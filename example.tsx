@@ -9,6 +9,7 @@ import DialogExample from './lib/dialog/dialog.example';
 import LayoutExample from './lib/layout/layout.example';
 import FormExample from './lib/form/form.example';
 import ScrollExample from './lib/scroll/scroll.example';
+import CitySelectorExample from './lib/citySelector/citySelector.example';
 
 import { ThemeProvider } from 'styled-components';
 import { myTheme } from './lib/my-theme';
@@ -47,6 +48,9 @@ ReactDom.render(
               <li>
                 <NavLink to="/carousel">Carousel 轮播</NavLink>
               </li>
+              <li>
+                <NavLink to="/citySelect">CitySelect 城市选择</NavLink>
+              </li>
             </ul>
           </Aside>
           <Content>
@@ -58,6 +62,7 @@ ReactDom.render(
             <Route path="/form" component={FormExample}/>
             <Route path="/scroll" component={ScrollExample}/>
             <Route path="/carousel" component={CarouselExample }/>
+            <Route path="/citySelect" component={CitySelectorExample }/>
           </Content>
         </Layout>
         <Footer>
