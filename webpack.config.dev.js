@@ -14,6 +14,7 @@ module.exports = Object.assign({}, baseConfig, {
     })
   ],
   devServer: {
-    open:true,
+    port: 9000,
+    // open:true,
   },
 });
