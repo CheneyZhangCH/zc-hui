@@ -14,8 +14,8 @@ interface IScrollProps extends HTMLAttributes<HTMLDivElement> {
   onRefresh?: () => void
 }
 
-const Scroll: React.FunctionComponent = (props: IScrollProps) => {
-  const { children, ...rest } = props
+const Scroll: React.FunctionComponent<IScrollProps> = (props) => {
+  const { children, onRefresh, ...rest } = props
 
   const [barHeight, setBarHeight] = useState(0)
   const [barTop, _setBarTop] = useState(0)
@@ -138,8 +138,6 @@ const Scroll: React.FunctionComponent = (props: IScrollProps) => {
   return (
     <div
       className={sc('')}
-      onMouseMove={onBarMouseMove}
-      onMouseUp={onBarMouseUp}
       {...rest}
     >
       <div
