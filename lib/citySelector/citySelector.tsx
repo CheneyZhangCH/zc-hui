@@ -33,13 +33,13 @@ const Dialog: React.FC<{ onClose: () => void }> = (props) => {
       className={sc('dialog')}
       onClick={props.onClose}>
       <header>
-        <Icon  name='left' style={{
+        <Icon name='left' style={{
           position: 'absolute',
           left: 8
         }}/>
         <span>选择城市</span>
       </header>
-      <CurrentCity />
+      <CurrentCity/>
       <h2>城市</h2>
       <div className={sc('cityIndex')}>ABCD</div>
       <div className={sc('cityList')}>所有城市</div>
@@ -49,20 +49,24 @@ const Dialog: React.FC<{ onClose: () => void }> = (props) => {
 }
 
 const CurrentCity: React.FC = () => {
-
+  const [currentCity, setCurrentCity] = useState('加载中')
   useEffect(() => {
     const xhr = new XMLHttpRequest()
     xhr.open('get', 'http://ip-api.com/json?lang=zh-CN')
-    xhr.onload = (res) => {
-      console.log(res)
-      console.log(xhr.response)
+    xhr.onload = ()=> {
+      const result =JSON.parse(xhr.response)
+      setCurrentCity(result.city)
     }
-  },[])
+    xhr.onerror = () => {
+      setCurrentCity('未知')
+    }
+    xhr.send()
+
+  }, [])
 
   return (
-		<div className={sc('currentCity')}>上海</div>
+    <div className={sc('currentCity')}>当前城市：{currentCity}</div>
   )
-
 }
 
 export default CitySelector
