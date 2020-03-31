@@ -1,6 +1,6 @@
 import * as React from 'react'
 import ReactDOM from 'react-dom'
-import { HTMLAttributes, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { createScopedClasses } from '../helper/classes'
 
 import { Icon } from '../index'
@@ -9,25 +9,36 @@ import './citySelector.scss'
 
 const sc = createScopedClasses('citySelector')
 
-interface ICitySelectorProps extends HTMLAttributes<HTMLDivElement> {
-  onRefresh?: () => void
+interface CityList {
+  [key: string]: string[]
 }
 
-const CitySelector: React.FC = (props: ICitySelectorProps) => {
+interface ICitySelectorProps {
+  onRefresh?: () => void
+  cityList: CityList
+}
+
+const CitySelectorContext = React.createContext<CityList>({})
+
+const CitySelector: React.FC<ICitySelectorProps> = (props) => {
   const [dialogVisible, setDialogVisible] = useState(true)
 
   const onClick = () => {
     setDialogVisible(true)
   }
   return (
-    <>
+    <CitySelectorContext.Provider value={props.cityList}>
       <div onClick={onClick}>{props.children}</div>
       {dialogVisible && <Dialog onClose={() => setDialogVisible(false)}/>}
-    </>
+    </CitySelectorContext.Provider>
   )
 
 }
 const Dialog: React.FC<{ onClose: () => void }> = (props) => {
+  const cityList = React.useContext(CitySelectorContext)
+  const indexList = Object.keys(cityList).sort()
+  const cityKeys = Object.keys(cityList)
+  console.log(cityList)
   return ReactDOM.createPortal(
     <div
       className={sc('dialog')}
@@ -39,10 +50,26 @@ const Dialog: React.FC<{ onClose: () => void }> = (props) => {
         }}/>
         <span>选择城市</span>
       </header>
-      <CurrentCity/>
-      <h2>城市</h2>
-      <div className={sc('cityIndex')}>ABCD</div>
-      <div className={sc('cityList')}>所有城市</div>
+      <div className={sc('pageContent')}>
+
+        <CurrentCity/>
+        <div className={sc('cityListWrapper')}>
+          <h4>全部城市</h4>
+          <div className={sc('charsIndex')}>
+            <ol>
+              {indexList.map((letter, index) => <li key={index}>{letter}</li>)}
+            </ol>
+          </div>
+          {cityKeys.map(key => {
+            return (
+              <div className={sc('citySection')} key={key}>
+                <h4>{key}</h4>
+                {cityList[key].map(city => <div className={sc('cityName')} key={city}>{city}</div>)}
+              </div>
+            )
+          })}
+        </div>
+      </div>
     </div>,
     document.body
   )
@@ -53,8 +80,8 @@ const CurrentCity: React.FC = () => {
   useEffect(() => {
     const xhr = new XMLHttpRequest()
     xhr.open('get', 'http://ip-api.com/json?lang=zh-CN')
-    xhr.onload = ()=> {
-      const result =JSON.parse(xhr.response)
+    xhr.onload = () => {
+      const result = JSON.parse(xhr.response)
       setCurrentCity(result.city)
     }
     xhr.onerror = () => {

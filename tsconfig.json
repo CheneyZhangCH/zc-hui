@@ -107,7 +107,9 @@
     /* Enables experimental support for emitting type metadata for decorators. */
     // "emitDecoratorMetadata": true,
 
-    "forceConsistentCasingInFileNames": true
+    "forceConsistentCasingInFileNames": true,
+
+    "resolveJsonModule": true
   },
   /* ts要分析的文件目录 */
   "include": [
