@@ -87,7 +87,9 @@
       overflow-x: hidden;
       overflow-y: hidden;
       text-overflow: ellipsis;
-      white-space: nowrap
+      white-space: nowrap;
+      position: relative;
+      z-index: 10;
     }
   }
   &-citySection:before {
