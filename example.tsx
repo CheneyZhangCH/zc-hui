@@ -14,6 +14,7 @@ import CitySelectorExample from './lib/citySelector/citySelector.example';
 import { ThemeProvider } from 'styled-components';
 import { myTheme } from './lib/my-theme';
 import { Layout, Header, Content, Aside, Footer } from './lib/layout/layout';
+import TreeExample from './lib/tree/tree.example'
 
 ReactDom.render(
   <Router>
@@ -51,6 +52,9 @@ ReactDom.render(
               <li>
                 <NavLink to="/citySelect">CitySelect 城市选择</NavLink>
               </li>
+              <li>
+                <NavLink to="/tree">Tree 树</NavLink>
+              </li>
             </ul>
           </Aside>
           <Content>
@@ -63,6 +67,7 @@ ReactDom.render(
             <Route path="/scroll" component={ScrollExample}/>
             <Route path="/carousel" component={CarouselExample }/>
             <Route path="/citySelect" component={CitySelectorExample }/>
+            <Route path="/tree" component={TreeExample}/>
           </Content>
         </Layout>
         <Footer>
