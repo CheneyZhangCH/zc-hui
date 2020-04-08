@@ -1,0 +1,41 @@
+.hui-tree {
+  &-item {
+    outline: 1px solid;
+    line-height: 1.5;
+    &-text {
+      &:hover {
+        background-color: #7f7f7f;
+      }
+    }
+  }
+  &-level-2 {
+    .hui-tree-item-text {
+      padding-left: 1em;
+    }
+  }
+  &-level-3 {
+    .hui-tree-item-text {
+      padding-left: 2em;
+    }
+  }
+  &-level-4 {
+    .hui-tree-item-text {
+      padding-left: 3em;
+    }
+  }
+  &-level-5 {
+    .hui-tree-item-text {
+      padding-left: 4em;
+    }
+  }
+  &-level-6 {
+    .hui-tree-item-text {
+      padding-left: 5em;
+    }
+  }
+  &-level-7 {
+    .hui-tree-item-text {
+      padding-left: 6em;
+    }
+  }
+}
