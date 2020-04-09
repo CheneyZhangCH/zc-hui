@@ -3,9 +3,14 @@
     outline: 1px solid;
     line-height: 1.5;
     &-text {
-      display: block;
+      display: flex;
+      align-items: center;
       &:hover {
         background-color: #7f7f7f;
+      }
+      & > span {
+        flex: 1;
+        margin-left: 1em;
       }
     }
 
