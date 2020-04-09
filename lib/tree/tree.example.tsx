@@ -58,7 +58,8 @@ const TreeExample: React.FC = () => {
   ])
 
   // const [selectedValues, setSelectedValues] = useState(['1-1-1', '1-1-2'])
-  const [selected, setSelected] = useState(['1-1-1'])
+  // const [selected, setSelected] = useState<string>('1-1-1')
+  const [selected, setSelected] = useState<string[]>(['1-1-1'])
   const onChange = (selected: string[]) => {
     console.log('change')
     setSelected(selected)

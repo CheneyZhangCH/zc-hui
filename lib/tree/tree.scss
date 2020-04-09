@@ -3,9 +3,15 @@
     outline: 1px solid;
     line-height: 1.5;
     &-text {
+      display: block;
       &:hover {
         background-color: #7f7f7f;
       }
+    }
+
+    &-collapsed {
+      height: 0;
+      overflow: hidden;
     }
   }
   &-level-2 {

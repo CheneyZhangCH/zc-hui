@@ -1,4 +1,4 @@
-import React, { ChangeEventHandler } from 'react'
+import React, { ChangeEventHandler, useState } from 'react'
 import { createScopedClasses } from '../helper/classes'
 import './tree.scss'
 
@@ -24,6 +24,7 @@ const Tree: React.FC<ITreeProps> = (
 
   const renderItem = (item: ISourceDataItem, level = 1) => {
     const onChange: ChangeEventHandler<HTMLInputElement> = (e) => {
+      e.stopPropagation()
       if (props.multiple) {
         if (e.target.checked) {
           props.onChange([...props.selected, item.value])
@@ -36,8 +37,14 @@ const Tree: React.FC<ITreeProps> = (
         props.onChange(item.value)
       }
     }
+
+    const [collapsed, setCollapsed] = useState(false)
+    const toggleCollapsed = () => {
+      setCollapsed(!collapsed)
+    }
+
     return (
-      <div key={item.value} className={sc([`level-${level}`, 'item'])}>
+      <div key={item.value} className={sc([`level-${level}`, 'item'])} onClick={toggleCollapsed}>
         <div className={sc('item-text')}>
           <input
             type="checkbox"
@@ -47,7 +54,9 @@ const Tree: React.FC<ITreeProps> = (
           {item.text}
         </div>
 
-        {item.children?.map(child => renderItem(child, level + 1))}
+        <div className={sc( ['item-children', collapsed ? 'item-collapsed' : ''])}>
+          {item.children?.map(child => renderItem(child, level + 1))}
+        </div>
       </div>
     )
   }
