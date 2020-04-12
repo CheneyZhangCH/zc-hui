@@ -1,6 +1,7 @@
 import React, { ChangeEventHandler, MouseEventHandler, useState } from 'react'
 import { createScopedClasses } from '../helper/classes'
 import './tree.scss'
+import { useUpdate } from '../hooks'
 
 export type ISourceDataItem = {
   text: string
@@ -44,7 +45,12 @@ const TreeItem: React.FC<ITreeItemProps> = (props) => {
     }
   }
 
-  const [collapsed, setCollapsed] = useState(false)
+  const [collapsed, setCollapsed] = useState(true)
+
+  useUpdate(collapsed, () => {
+    console.log(collapsed)
+  })
+
   const toggleCollapsed: MouseEventHandler<HTMLDivElement> = (e) => {
     e.stopPropagation()
     setCollapsed(!collapsed)
