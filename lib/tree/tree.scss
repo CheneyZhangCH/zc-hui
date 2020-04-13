@@ -1,8 +1,11 @@
 .hui-tree {
+  border-bottom: 1px solid;
   &-item {
-    outline: 1px solid;
+    border-top: 1px solid;
     line-height: 1.5;
     &-text {
+      border-left: 1px solid;
+      border-right: 1px solid;
       display: flex;
       align-items: center;
       &:hover {
@@ -13,7 +16,10 @@
         margin-left: 1em;
       }
     }
-
+    &-children {
+      overflow: hidden;
+      transition: height .6s;
+    }
     &-collapsed {
       height: 0;
       overflow: hidden;

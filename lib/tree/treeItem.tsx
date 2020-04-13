@@ -1,4 +1,4 @@
-import React, { ChangeEventHandler, MouseEventHandler, useState } from 'react'
+import React, { ChangeEventHandler, MouseEventHandler, useRef, useState } from 'react'
 import { createScopedClasses } from '../helper/classes'
 import './tree.scss'
 import { useUpdate } from '../hooks'
@@ -46,9 +46,28 @@ const TreeItem: React.FC<ITreeItemProps> = (props) => {
   }
 
   const [collapsed, setCollapsed] = useState(true)
+  const childRef = useRef<HTMLDivElement>(null)
 
   useUpdate(collapsed, () => {
     console.log(collapsed)
+    if (collapsed) {
+      console.log('关闭')
+      if (!childRef.current) return
+      const { height } = childRef.current.getBoundingClientRect()
+      childRef.current.style.height = height + 'px'
+      childRef.current.getBoundingClientRect()
+      childRef.current.style.height = '0px'
+    } else {
+      console.log('打开')
+      if (!childRef.current) return
+      childRef.current.style.height = 'auto'
+      const { height } = childRef.current.getBoundingClientRect()
+      childRef.current.classList.remove('hui-tree-item-collapsed')
+      childRef.current.style.height = '0px'
+      childRef.current.getBoundingClientRect()
+      childRef.current.style.height = height + 'px'
+      childRef.current.style.height = 'auto'
+    }
   })
 
   const toggleCollapsed: MouseEventHandler<HTMLDivElement> = (e) => {
@@ -67,7 +86,7 @@ const TreeItem: React.FC<ITreeItemProps> = (props) => {
         <span onClick={toggleCollapsed}>{item.text}</span>
       </div>
 
-      <div className={sc(['item-children', collapsed ? 'item-collapsed' : ''])}>
+      <div ref={childRef} className={sc(['item-children', collapsed ? 'item-collapsed' : ''])}>
         {item.children?.map((child, index) =>
           <TreeItem key={child.value} item={child} level={level + 1} treeProps={treeProps}/>
         )}
