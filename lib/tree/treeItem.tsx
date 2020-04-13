@@ -50,23 +50,41 @@ const TreeItem: React.FC<ITreeItemProps> = (props) => {
 
   useUpdate(collapsed, () => {
     console.log(collapsed)
+    if (!childRef.current) return
+
     if (collapsed) {
       console.log('关闭')
-      if (!childRef.current) return
       const { height } = childRef.current.getBoundingClientRect()
       childRef.current.style.height = height + 'px'
       childRef.current.getBoundingClientRect()
       childRef.current.style.height = '0px'
+      const x = () => {
+        if (!childRef.current) return
+        childRef.current.style.height = ''
+        childRef.current.classList.add('hui-tree-item-collapsed')
+        childRef.current.classList.remove('hui-tree-item-expended')
+        childRef.current.removeEventListener('transitionend', x)
+      }
+      childRef.current.addEventListener('transitionend', x)
+
     } else {
       console.log('打开')
-      if (!childRef.current) return
       childRef.current.style.height = 'auto'
       const { height } = childRef.current.getBoundingClientRect()
+      console.log('height', height)
+      childRef.current.classList.add('hui-tree-item-expended')
       childRef.current.classList.remove('hui-tree-item-collapsed')
       childRef.current.style.height = '0px'
       childRef.current.getBoundingClientRect()
       childRef.current.style.height = height + 'px'
-      childRef.current.style.height = 'auto'
+      const y = () => {
+        if (!childRef.current) return
+        childRef.current.style.height = ''
+        childRef.current.classList.remove('hui-tree-item-collapsed')
+        childRef.current.classList.add('hui-tree-item-expended')
+        childRef.current.removeEventListener('transitionend', y)
+      }
+      childRef.current.addEventListener('transitionend', y)
     }
   })
 
@@ -86,11 +104,12 @@ const TreeItem: React.FC<ITreeItemProps> = (props) => {
         <span onClick={toggleCollapsed}>{item.text}</span>
       </div>
 
-      <div ref={childRef} className={sc(['item-children', collapsed ? 'item-collapsed' : ''])}>
+      <div ref={childRef} className={sc(['item-children', collapsed ? 'item-collapsed' : 'item-expended'])}>
         {item.children?.map((child, index) =>
           <TreeItem key={child.value} item={child} level={level + 1} treeProps={treeProps}/>
         )}
       </div>
+
     </div>
   )
 }

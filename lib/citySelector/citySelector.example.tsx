@@ -2,7 +2,6 @@ import * as React from 'react'
 import CitySelector from './citySelector'
 import cityList from './data.json'
 
-console.log(cityList)
 const CitySelectorExample: React.FunctionComponent = () => {
 
   const onChange = (p1: string) => {
