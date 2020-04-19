@@ -21,22 +21,32 @@ interface ITreeItemProps {
   item: ISourceDataItem
   level: number
   treeProps: ITreeProps
+  onItemChange: (values: string[]) => void
 }
 
 const sc = createScopedClasses('tree')
 
 const TreeItem: React.FC<ITreeItemProps> = (props) => {
+  const [collapsed, setCollapsed] = useState(true)
+  const childRef = useRef<HTMLDivElement>(null)
+  const inputRef = useRef<HTMLInputElement>(null)
   const { item, level, treeProps } = props
+
+  const collectChildrenValues = (item: ISourceDataItem): any => {
+    return item.children?.map(child => [child.value, collectChildrenValues(child)])
+  }
   const onChange: ChangeEventHandler<HTMLInputElement> = (e) => {
     e.stopPropagation()
+    const childrenValues = collectChildrenValues(item)?.flat(Infinity).filter(Boolean) || []
     if (treeProps.multiple) {
       if (e.target.checked) {
-        treeProps.onChange([...treeProps.selected, item.value])
+        props.onItemChange(Array.from(new Set([...treeProps.selected, item.value, ...childrenValues])))
       } else {
-        treeProps.onChange(treeProps.selected.filter(value => value !== item.value))
+        props.onItemChange(treeProps.selected.filter(value =>
+          value !== item.value && childrenValues.indexOf(value) === -1
+        ))
       }
     } else {
-      debugger
       if (e.target.checked) {
         treeProps.onChange(item.value)
       } else {
@@ -45,15 +55,32 @@ const TreeItem: React.FC<ITreeItemProps> = (props) => {
     }
   }
 
-  const [collapsed, setCollapsed] = useState(true)
-  const childRef = useRef<HTMLDivElement>(null)
+  const intersect = <T, K>(array1: T[], array2: T[]): T[] => {
+    const result: T[] = []
+    for (let i = 0; i < array1.length; i++) {
+      if (array2.includes(array1[i])) {
+        result.push(array1[i])
+      }
+    }
+    return Array.from(new Set(result))
+  }
+
+  const onItemChange = (values: string[]) => {
+    const childrenValues = Array.from(new Set(collectChildrenValues(item).flat(Infinity).filter(Boolean))) || []
+    const common = intersect(values, childrenValues)
+    if (common.length !== 0) {
+      props.onItemChange(values.concat(item.value))
+      inputRef.current!.indeterminate = common.length !== childrenValues.length
+    } else {
+      props.onItemChange(values.filter(value => value !== item.value))
+      inputRef.current!.indeterminate = false
+    }
+  }
 
   useUpdate(collapsed, () => {
-    console.log(collapsed)
     if (!childRef.current) return
 
     if (collapsed) {
-      console.log('关闭')
       const { height } = childRef.current.getBoundingClientRect()
       childRef.current.style.height = height + 'px'
       childRef.current.getBoundingClientRect()
@@ -68,10 +95,8 @@ const TreeItem: React.FC<ITreeItemProps> = (props) => {
       childRef.current.addEventListener('transitionend', x)
 
     } else {
-      console.log('打开')
       childRef.current.style.height = 'auto'
       const { height } = childRef.current.getBoundingClientRect()
-      console.log('height', height)
       childRef.current.classList.add('hui-tree-item-expended')
       childRef.current.classList.remove('hui-tree-item-collapsed')
       childRef.current.style.height = '0px'
@@ -97,6 +122,7 @@ const TreeItem: React.FC<ITreeItemProps> = (props) => {
     <div key={item.value} className={sc([`level-${level}`, 'item'])}>
       <div className={sc('item-text')}>
         <input
+          ref={inputRef}
           type="checkbox"
           onChange={onChange}
           checked={treeProps.multiple ? treeProps.selected.includes(item.value) : treeProps.selected === item.value}
@@ -105,8 +131,14 @@ const TreeItem: React.FC<ITreeItemProps> = (props) => {
       </div>
 
       <div ref={childRef} className={sc(['item-children', collapsed ? 'item-collapsed' : 'item-expended'])}>
-        {item.children?.map((child, index) =>
-          <TreeItem key={child.value} item={child} level={level + 1} treeProps={treeProps}/>
+        {item.children?.map((child) =>
+          <TreeItem
+            key={child.value}
+            item={child}
+            level={level + 1}
+            onItemChange={onItemChange}
+            treeProps={treeProps}
+          />
         )}
       </div>
 
