@@ -17,12 +17,9 @@
       }
     }
     &-children {
-      overflow: hidden;
-      transition: height .6s;
-    }
-    &-collapsed {
       height: 0;
       overflow: hidden;
+      transition: height .6s;
     }
   }
   &-level-2 {

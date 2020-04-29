@@ -1,4 +1,4 @@
-import React, { ChangeEventHandler, MouseEventHandler, useRef, useState } from 'react'
+import React, { ChangeEventHandler, MouseEventHandler, useEffect, useRef, useState } from 'react'
 import { createScopedClasses } from '../helper/classes'
 import './tree.scss'
 import { useUpdate } from '../hooks'
@@ -87,7 +87,8 @@ const TreeItem: React.FC<ITreeItemProps> = (props) => {
       childRef.current.style.height = '0px'
       const x = () => {
         if (!childRef.current) return
-        childRef.current.style.height = ''
+        // childRef.current.style.height = ''
+        childRef.current.style.height = '0px'
         childRef.current.classList.add('hui-tree-item-collapsed')
         childRef.current.classList.remove('hui-tree-item-expended')
         childRef.current.removeEventListener('transitionend', x)
@@ -104,7 +105,7 @@ const TreeItem: React.FC<ITreeItemProps> = (props) => {
       childRef.current.style.height = height + 'px'
       const y = () => {
         if (!childRef.current) return
-        childRef.current.style.height = ''
+        childRef.current.style.height = 'auto'
         childRef.current.classList.remove('hui-tree-item-collapsed')
         childRef.current.classList.add('hui-tree-item-expended')
         childRef.current.removeEventListener('transitionend', y)
@@ -112,6 +113,11 @@ const TreeItem: React.FC<ITreeItemProps> = (props) => {
       childRef.current.addEventListener('transitionend', y)
     }
   })
+
+  useEffect(() => {
+    if (!childRef.current) return
+    childRef.current.style.height = '0px'
+  }, [])
 
   const toggleCollapsed: MouseEventHandler<HTMLDivElement> = (e) => {
     e.stopPropagation()
@@ -131,7 +137,7 @@ const TreeItem: React.FC<ITreeItemProps> = (props) => {
       </div>
 
       <div ref={childRef} className={sc(['item-children', collapsed ? 'item-collapsed' : 'item-expended'])}>
-        {item.children?.map((child) =>
+        {Array.isArray(item.children) && item.children.length > 0 && item.children.map((child) =>
           <TreeItem
             key={child.value}
             item={child}
