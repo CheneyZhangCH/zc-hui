@@ -10,4 +10,3 @@ export const useUpdate = <T, K extends Function>(dep: T, fn: K) => {
     fn()
   }, [dep])
 }
-

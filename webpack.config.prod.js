@@ -1,4 +1,4 @@
-const baseConfig = require('./webpack.config');
+const baseConfig = require('./webpack.config')
 
 module.exports = Object.assign({}, baseConfig, {
   mode: 'production',
@@ -17,5 +17,4 @@ module.exports = Object.assign({}, baseConfig, {
       root: 'ReactDOM',
     },
   },
-});
-
+})
