@@ -112,6 +112,7 @@
     // "emitDecoratorMetadata": true,
 
     "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true,
     "resolveJsonModule": true
   },
   /* ts要分析的文件目录 */
